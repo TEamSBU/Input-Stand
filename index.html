@@ -3,26 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Input Energi Penyulang - GI Kenjeran</title>
+    <title>Form Energi Penyulang - GI Kenjeran</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background-color: #f4f7f6; padding: 15px; display: flex; justify-content: center; }
-        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); width: 100%; max-width: 1100px; overflow-x: auto; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); width: 100%; max-width: 1100px; }
         h2 { text-align: center; margin-bottom: 5px; color: #333; }
         p.subtitle { text-align: center; color: #666; margin-bottom: 20px; font-size: 14px; }
         
-        table { width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 13px; min-width: 800px; }
-        th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
-        th { background-color: #007bff; color: white; font-weight: 600; text-align: center; position: sticky; top: 0; }
-        .text-center { text-align: center; }
-        .bg-gi { background-color: #e9ecef; font-weight: bold; text-align: center; }
-        .bg-trafo { background-color: #f8f9fa; font-weight: bold; text-align: center; }
+        /* Style Filter Dropdown */
+        .filter-section { background-color: #f8f9fa; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #e9ecef; display: flex; gap: 15px; align-items: center; }
+        .filter-group { display: flex; flex-direction: column; gap: 5px; width: 100%; max-width: 250px; }
+        .filter-group label { font-size: 13px; font-weight: 600; color: #444; }
+        .select-custom { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; outline: none; background-color: #fff; }
+        
+        .table-wrapper { overflow-x: auto; margin-bottom: 25px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 750px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #007bff; color: white; font-weight: 600; text-align: center; }
         
         .input-num { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; text-align: right; outline: none; }
         .input-num:focus { border-color: #007bff; background-color: #fffdf0; }
-        .input-total { width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; text-align: right; background-color: #e9ecef; font-weight: bold; color: #333; }
         
-        .btn-container { text-align: right; margin-top: 15px; }
+        .btn-container { text-align: right; }
         .btn-submit { padding: 12px 40px; background-color: #28a745; color: white; border: none; border-radius: 5px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; width: 100%; max-width: 250px; }
         .btn-submit:hover { background-color: #218838; }
         .btn-submit:disabled { background-color: #ccc; cursor: not-allowed; }
@@ -32,97 +35,92 @@
 
 <div class="container">
     <h2>Form Input Parameter Penyulang GI Kenjeran</h2>
-    <p class="subtitle">Kolom <b>Total</b> akan terhitung otomatis (LWBP 1 + LWBP 2 + WBP). Tekan tombol simpan di paling bawah jika semua data sudah terisi.</p>
+    <p class="subtitle">Pilih Trafo terlebih dahulu untuk menampilkan daftar penyulangnya, lalu isi data secara manual.</p>
     
+    <!-- Filter Section (Dropdown) -->
+    <div class="filter-section">
+        <div class="filter-group">
+            <label>GARDU INDUK</label>
+            <select class="select-custom" disabled>
+                <option>KENJERAN</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="trafoSelect">PILIH TRAFO</label>
+            <select id="trafoSelect" class="select-custom">
+                <option value="I">TRAFO I</option>
+                <option value="II">TRAFO II</option>
+                <option value="III">TRAFO III</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Form Tabel Data -->
     <form id="matrixForm">
-        <table>
-            <thead>
-                <tr>
-                    <th>GARDU INDUK</th>
-                    <th>TRAFO</th>
-                    <th>NAMA PENYULANG</th>
-                    <th style="width: 110px;">LWBP 1</th>
-                    <th style="width: 110px;">LWBP 2</th>
-                    <th style="width: 110px;">WBP</th>
-                    <th style="width: 120px;">TOTAL</th>
-                    <th style="width: 110px;">kVarh</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                <!-- Data akan di-generate otomatis oleh JavaScript di bawah untuk menghemat baris kode -->
-            </tbody>
-        </table>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>NAMA PENYULANG</th>
+                        <th style="width: 120px;">LWBP 1</th>
+                        <th style="width: 120px;">LWBP 2</th>
+                        <th style="width: 120px;">WBP</th>
+                        <th style="width: 130px;">TOTAL</th>
+                        <th style="width: 120px;">kVarh</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Baris penyulang akan dimuat dinamis lewat JavaScript -->
+                </tbody>
+            </table>
+        </div>
         
         <div class="btn-container">
-            <button type="submit" id="submitBtn" class="btn-submit">Simpan Semua Data</button>
+            <button type="submit" id="submitBtn" class="btn-submit">Simpan Data Trafo</button>
         </div>
     </form>
 </div>
 
 <script>
-    // SUSUNAN STRUKTUR DATA BARU ANDA
-    const dataStruktur = [
-        { trafo: "I", penyulang: ["Meter Utama", "Meter Pembanding", "PS", "Kalijudan", "Babatan", "Tmbk Sari", "Kr. Asem", "Resman", "Putro Agung", "Kp. Krampung", "Ked. Cowek", "Tb. Deres"] },
-        { trafo: "II", penyulang: ["Meter Utama", "Meter Pembanding", "PS", "Mojoarum", "Dh. Husada", "Rangkah", "Tuwowo", "Kaliondo", "Mulyosari", "Sidoyoso", "Kapas Jaya", "Wiratno"] },
-        { trafo: "III", penyulang: ["Meter Utama", "Meter Pembanding", "PS", "Pogot", "Bogen", "Gersikan", "Wisma Permai", "AURI", "Tampurejo", "Platuk"] }
-    ];
+    // Struktur Data Master Penyulang
+    const penyulangMaster = {
+        "I": ["Meter Utama", "Meter Pembanding", "PS", "Kalijudan", "Babatan", "Tmbk Sari", "Kr. Asem", "Resman", "Putro Agung", "Kp. Krampung", "Ked. Cowek", "Tb. Deres"],
+        "II": ["Meter Utama", "Meter Pembanding", "PS", "Mojoarum", "Dh. Husada", "Rangkah", "Tuwowo", "Kaliondo", "Mulyosari", "Sidoyoso", "Kapas Jaya", "Wiratno"],
+        "III": ["Meter Utama", "Meter Pembanding", "PS", "Pogot", "Bogen", "Gersikan", "Wisma Permai", "AURI", "Tampurejo", "Platuk"]
+    };
 
+    const trafoSelect = document.getElementById('trafoSelect');
     const tbody = document.getElementById('tableBody');
-    let isFirstGI = true;
 
-    // Hitung total rowspan untuk Gardu Induk Kenjeran (Total semua penyulang = 12 + 12 + 10 = 34)
-    const totalPenyulang = dataStruktur.reduce((acc, curr) => acc + curr.penyulang.length, 0);
-
-    dataStruktur.forEach((tGroup, tIndex) => {
-        tGroup.penyulang.forEach((pName, pIndex) => {
+    // Fungsi untuk memuat daftar penyulang berdasarkan Trafo yang dipilih
+    function renderPenyulang(trafoId) {
+        tbody.innerHTML = ""; // Bersihkan tabel lama
+        const listPenyulang = penyulangMaster[trafoId];
+        
+        listPenyulang.forEach(pName => {
             const tr = document.createElement('tr');
-            let htmlContent = '';
-
-            // Gabungkan baris untuk kolom Gardu Induk
-            if (isFirstGI) {
-                htmlContent += `<td class="bg-gi" rowspan="${totalPenyulang}">KENJERAN</td>`;
-                isFirstGI = false;
-            }
-
-            // Gabungkan baris untuk kolom Trafo
-            if (pIndex === 0) {
-                htmlContent += `<td class="bg-trafo" rowspan="${tGroup.penyulang.length}">TRAFO ${tGroup.trafo}</td>`;
-            }
-
-            // Unik ID untuk mempermudah perhitungan otomatis rumus total
-            const idRow = `r_${tGroup.trafo}_${pIndex}`;
-
-            htmlContent += `
-                <td>${pName}</td>
-                <td><input type="number" step="any" class="input-num" data-id="${idRow}" data-type="lwbp1" required min="0" placeholder="0"></td>
-                <td><input type="number" step="any" class="input-num" data-id="${idRow}" data-type="lwbp2" required min="0" placeholder="0"></td>
-                <td><input type="number" step="any" class="input-num" data-id="${idRow}" data-type="wbp" required min="0" placeholder="0"></td>
-                <td><input type="text" class="input-total" id="total_${idRow}" readonly value="0"></td>
-                <td><input type="number" step="any" class="input-num" data-id="${idRow}" data-type="kvarh" required min="0" placeholder="0"></td>
-            `;
-            
-            tr.innerHTML = htmlContent;
-            tr.setAttribute('data-gi', 'KENJERAN');
-            tr.setAttribute('data-trafo', `TRAFO ${tGroup.trafo}`);
             tr.setAttribute('data-pname', pName);
+            tr.innerHTML = `
+                <td><b>${pName}</b></td>
+                <td><input type="number" step="any" class="input-num lwbp1" required min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num lwbp2" required min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num wbp" required min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num total" required min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num kvarh" required min="0" placeholder="0"></td>
+            `;
             tbody.appendChild(tr);
         });
+    }
+
+    // Jalankan pertama kali untuk TRAFO I saat halaman dibuka
+    renderPenyulang(trafoSelect.value);
+
+    // Event ketika dropdown Pilihan Trafo diubah
+    trafoSelect.addEventListener('change', (e) => {
+        renderPenyulang(e.target.value);
     });
 
-    // Event Listener untuk Hitung Otomatis (LWBP 1 + LWBP 2 + WBP)
-    tbody.addEventListener('input', e => {
-        if (e.target.classList.contains('input-num')) {
-            const idRow = e.target.getAttribute('data-id');
-            const lwbp1 = parseFloat(document.querySelector(`[data-id="${idRow}"][data-type="lwbp1"]`).value) || 0;
-            const lwbp2 = parseFloat(document.querySelector(`[data-id="${idRow}"][data-type="lwbp2"]`).value) || 0;
-            const wbp = parseFloat(document.querySelector(`[data-id="${idRow}"][data-type="wbp"]`).value) || 0;
-            
-            // Tampilkan hasil penjumlahan di kolom total (dibulatkan 2 angka di belakang koma jika desimal)
-            document.getElementById(`total_${idRow}`).value = (lwbp1 + lwbp2 + wbp).toFixed(2).replace(/\.00$/, '');
-        }
-    });
-
-    // GANTI TULISAN DI BAWAH INI DENGAN URL WEB APP KAMU DARI GOOGLE APPS SCRIPT
+    // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
     const scriptURL = 'https://script.google.com/macros/s/AKfycbwAKdHfAVeKeFEEIWWJtMO93TP3U048xplV0fU8mDYG_QR6LaC4ENaZmXUZDjylpz4N/exec';
     const form = document.getElementById('matrixForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -130,44 +128,40 @@
     form.addEventListener('submit', e => {
         e.preventDefault();
         submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Menyimpan Semua Data...';
+        submitBtn.innerHTML = 'Menyimpan Data...';
 
-        // Susun objek data terstruktur dari tabel untuk dikirim ke Google Sheet
+        const selectedTrafo = trafoSelect.value;
         const rowsData = [];
         const allRows = tbody.querySelectorAll('tr');
         
         allRows.forEach(tr => {
-            const idRow = tr.querySelector('.input-num').getAttribute('data-id');
             rowsData.push({
-                gi: tr.getAttribute('data-gi'),
-                trafo: tr.getAttribute('data-trafo'),
+                gi: 'KENJERAN',
+                trafo: `TRAFO ${selectedTrafo}`,
                 penyulang: tr.getAttribute('data-pname'),
-                lwbp1: tr.querySelector(`[data-id="${idRow}"][data-type="lwbp1"]`).value,
-                lwbp2: tr.querySelector(`[data-id="${idRow}"][data-type="lwbp2"]`).value,
-                wbp: tr.querySelector(`[data-id="${idRow}"][data-type="wbp"]`).value,
-                total: document.getElementById(`total_${idRow}`).value,
-                kvarh: tr.querySelector(`[data-id="${idRow}"][data-type="kvarh"]`).value
+                lwbp1: tr.querySelector('.lwbp1').value,
+                lwbp2: tr.querySelector('.lwbp2').value,
+                wbp: tr.querySelector('.wbp').value,
+                total: tr.querySelector('.total').value,
+                kvarh: tr.querySelector('.kvarh').value
             });
         });
 
-        // Kirim data menggunakan metode JSON stringify (bukan FormData biasa agar kuat menampung baris massal)
         fetch(scriptURL, { 
             method: 'POST', 
             body: JSON.stringify({ rows: rowsData })
         })
         .then(response => {
-            alert('Hebat! Seluruh data parameter Trafo I, II, dan III sukses disimpan ke Google Sheets.');
+            alert(`Sukses! Data Parameter TRAFO ${selectedTrafo} berhasil disimpan ke Google Sheets.`);
             form.reset();
-            // Reset semua nilai tampilan teks total menjadi 0
-            document.querySelectorAll('.input-total').forEach(el => el.value = "0");
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Simpan Semua Data';
+            submitBtn.innerHTML = 'Simpan Data Trafo';
         })
         .catch(error => {
-            alert('Gagal menyimpan, mohon periksa sambungan internet atau keaktifan URL Apps Script.');
+            alert('Gagal menyimpan, mohon periksa koneksi internet atau validitas URL Apps Script.');
             console.error('Error!', error.message);
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Simpan Semua Data';
+            submitBtn.innerHTML = 'Simpan Data Trafo';
         });
     });
 </script>
