@@ -3,22 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input kWh Penyulang - GI Kenjeran</title>
+    <title>Form Input Energi Penyulang - GI Kenjeran</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #f4f7f6; padding: 30px; display: flex; justify-content: center; }
-        .container { background-color: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); width: 100%; max-width: 800px; }
+        body { background-color: #f4f7f6; padding: 15px; display: flex; justify-content: center; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); width: 100%; max-width: 1100px; overflow-x: auto; }
         h2 { text-align: center; margin-bottom: 5px; color: #333; }
-        p.subtitle { text-align: center; color: #666; margin-bottom: 25px; font-size: 14px; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background-color: #007bff; color: white; font-weight: 600; text-align: center; }
+        p.subtitle { text-align: center; color: #666; margin-bottom: 20px; font-size: 14px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 13px; min-width: 800px; }
+        th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+        th { background-color: #007bff; color: white; font-weight: 600; text-align: center; position: sticky; top: 0; }
         .text-center { text-align: center; }
-        .bg-light { background-color: #f9f9f9; font-weight: bold; color: #444; }
-        .input-kwh { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; text-align: right; outline: none; }
-        .input-kwh:focus { border-color: #007bff; background-color: #fffdf0; box-shadow: 0 0 4px rgba(0,123,255,0.2); }
-        .btn-container { text-align: right; }
-        .btn-submit { padding: 12px 30px; background-color: #28a745; color: white; border: none; border-radius: 5px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .bg-gi { background-color: #e9ecef; font-weight: bold; text-align: center; }
+        .bg-trafo { background-color: #f8f9fa; font-weight: bold; text-align: center; }
+        
+        .input-num { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; text-align: right; outline: none; }
+        .input-num:focus { border-color: #007bff; background-color: #fffdf0; }
+        .input-total { width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; text-align: right; background-color: #e9ecef; font-weight: bold; color: #333; }
+        
+        .btn-container { text-align: right; margin-top: 15px; }
+        .btn-submit { padding: 12px 40px; background-color: #28a745; color: white; border: none; border-radius: 5px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; width: 100%; max-width: 250px; }
         .btn-submit:hover { background-color: #218838; }
         .btn-submit:disabled { background-color: #ccc; cursor: not-allowed; }
     </style>
@@ -26,60 +31,25 @@
 <body>
 
 <div class="container">
-    <h2>Form Input kWh Penyulang</h2>
-    <p class="subtitle">Silakan isi angka kWh pada kolom paling kanan, lalu klik Simpan Data.</p>
+    <h2>Form Input Parameter Penyulang GI Kenjeran</h2>
+    <p class="subtitle">Kolom <b>Total</b> akan terhitung otomatis (LWBP 1 + LWBP 2 + WBP). Tekan tombol simpan di paling bawah jika semua data sudah terisi.</p>
     
-    <form id="kwhForm">
+    <form id="matrixForm">
         <table>
             <thead>
                 <tr>
-                    <th style="width: 5px;">NO</th>
                     <th>GARDU INDUK</th>
-                    <th style="width: 80px;">TRAFO</th>
+                    <th>TRAFO</th>
                     <th>NAMA PENYULANG</th>
-                    <th style="width: 200px;">KWH PENYULANG</th>
+                    <th style="width: 110px;">LWBP 1</th>
+                    <th style="width: 110px;">LWBP 2</th>
+                    <th style="width: 110px;">WBP</th>
+                    <th style="width: 120px;">TOTAL</th>
+                    <th style="width: 110px;">kVarh</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td class="text-center" rowspan="9">1</td>
-                    <td class="bg-light" rowspan="9">KENJERAN</td>
-                    <td class="text-center bg-light" rowspan="9">I</td>
-                    <td>KALIJUDAN</td>
-                    <td><input type="number" class="input-kwh" name="KALIJUDAN" placeholder="0" required min="0"></td>
-                </tr>
-                <tr>
-                    <td>BABATAN</td>
-                    <td><input type="number" class="input-kwh" name="BABATAN" placeholder="0" required min="0"></td>
-                </tr>
-                <tr>
-                    <td>TMBK SARI</td>
-                    <td><input type="number" class="input-kwh" name="TMBK_SARI" placeholder="0" required min="0"></td>
-                </tr>
-                <tr>
-                    <td>KR. ASEM</td>
-                    <td><input type="number" class="input-kwh" name="KR_ASEM" placeholder="0" required min="0"></td>
-                </tr>
-                <tr>
-                    <td>RESMAN</td>
-                    <td><input type="number" class="input-kwh" name="RESMAN" placeholder="0" required min="0"></td>
-                </tr>
-                <tr>
-                    <td>PUTRO AGUNG</td>
-                    <td><input type="number" class="input-kwh" name="PUTRO_AGUNG" placeholder="0" required min="0"></td>
-                </tr>
-                <tr>
-                    <td>KP. KRAMPUNG</td>
-                    <td><input type="number" class="input-kwh" name="KP_KRAMPUNG" placeholder="0" required min="0"></td>
-                </tr>
-                <tr>
-                    <td>KED. COWEK</td>
-                    <td><input type="number" class="input-kwh" name="KED_COWEK" placeholder="0" required min="0"></td>
-                </tr>
-                <tr>
-                    <td>TB. DERES</td>
-                    <td><input type="number" class="input-kwh" name="TB_DERES" placeholder="0" required min="0"></td>
-                </tr>
+            <tbody id="tableBody">
+                <!-- Data akan di-generate otomatis oleh JavaScript di bawah untuk menghemat baris kode -->
             </tbody>
         </table>
         
@@ -90,30 +60,115 @@
 </div>
 
 <script>
-    // TEMPELKAN URL WEB APP ANDA DI SINI
+    // SUSUNAN STRUKTUR DATA BARU ANDA
+    const dataStruktur = [
+        { trafo: "I", penyulang: ["Meter Utama", "Meter Pembanding", "PS", "Kalijudan", "Babatan", "Tmbk Sari", "Kr. Asem", "Resman", "Putro Agung", "Kp. Krampung", "Ked. Cowek", "Tb. Deres"] },
+        { trafo: "II", penyulang: ["Meter Utama", "Meter Pembanding", "PS", "Mojoarum", "Dh. Husada", "Rangkah", "Tuwowo", "Kaliondo", "Mulyosari", "Sidoyoso", "Kapas Jaya", "Wiratno"] },
+        { trafo: "III", penyulang: ["Meter Utama", "Meter Pembanding", "PS", "Pogot", "Bogen", "Gersikan", "Wisma Permai", "AURI", "Tampurejo", "Platuk"] }
+    ];
+
+    const tbody = document.getElementById('tableBody');
+    let isFirstGI = true;
+
+    // Hitung total rowspan untuk Gardu Induk Kenjeran (Total semua penyulang = 12 + 12 + 10 = 34)
+    const totalPenyulang = dataStruktur.reduce((acc, curr) => acc + curr.penyulang.length, 0);
+
+    dataStruktur.forEach((tGroup, tIndex) => {
+        tGroup.penyulang.forEach((pName, pIndex) => {
+            const tr = document.createElement('tr');
+            let htmlContent = '';
+
+            // Gabungkan baris untuk kolom Gardu Induk
+            if (isFirstGI) {
+                htmlContent += `<td class="bg-gi" rowspan="${totalPenyulang}">KENJERAN</td>`;
+                isFirstGI = false;
+            }
+
+            // Gabungkan baris untuk kolom Trafo
+            if (pIndex === 0) {
+                htmlContent += `<td class="bg-trafo" rowspan="${tGroup.penyulang.length}">TRAFO ${tGroup.trafo}</td>`;
+            }
+
+            // Unik ID untuk mempermudah perhitungan otomatis rumus total
+            const idRow = `r_${tGroup.trafo}_${pIndex}`;
+
+            htmlContent += `
+                <td>${pName}</td>
+                <td><input type="number" step="any" class="input-num" data-id="${idRow}" data-type="lwbp1" required min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num" data-id="${idRow}" data-type="lwbp2" required min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num" data-id="${idRow}" data-type="wbp" required min="0" placeholder="0"></td>
+                <td><input type="text" class="input-total" id="total_${idRow}" readonly value="0"></td>
+                <td><input type="number" step="any" class="input-num" data-id="${idRow}" data-type="kvarh" required min="0" placeholder="0"></td>
+            `;
+            
+            tr.innerHTML = htmlContent;
+            tr.setAttribute('data-gi', 'KENJERAN');
+            tr.setAttribute('data-trafo', `TRAFO ${tGroup.trafo}`);
+            tr.setAttribute('data-pname', pName);
+            tbody.appendChild(tr);
+        });
+    });
+
+    // Event Listener untuk Hitung Otomatis (LWBP 1 + LWBP 2 + WBP)
+    tbody.addEventListener('input', e => {
+        if (e.target.classList.contains('input-num')) {
+            const idRow = e.target.getAttribute('data-id');
+            const lwbp1 = parseFloat(document.querySelector(`[data-id="${idRow}"][data-type="lwbp1"]`).value) || 0;
+            const lwbp2 = parseFloat(document.querySelector(`[data-id="${idRow}"][data-type="lwbp2"]`).value) || 0;
+            const wbp = parseFloat(document.querySelector(`[data-id="${idRow}"][data-type="wbp"]`).value) || 0;
+            
+            // Tampilkan hasil penjumlahan di kolom total (dibulatkan 2 angka di belakang koma jika desimal)
+            document.getElementById(`total_${idRow}`).value = (lwbp1 + lwbp2 + wbp).toFixed(2).replace(/\.00$/, '');
+        }
+    });
+
+    // GANTI TULISAN DI BAWAH INI DENGAN URL WEB APP KAMU DARI GOOGLE APPS SCRIPT
     const scriptURL = 'https://script.google.com/macros/s/AKfycbwAKdHfAVeKeFEEIWWJtMO93TP3U048xplV0fU8mDYG_QR6LaC4ENaZmXUZDjylpz4N/exec';
-    
-    const form = document.getElementById('kwhForm');
+    const form = document.getElementById('matrixForm');
     const submitBtn = document.getElementById('submitBtn');
 
     form.addEventListener('submit', e => {
         e.preventDefault();
         submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Menyimpan...';
+        submitBtn.innerHTML = 'Menyimpan Semua Data...';
 
-        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-            .then(response => {
-                alert('Seluruh data kWh berhasil disimpan!');
-                form.reset();
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Simpan Semua Data';
-            })
-            .catch(error => {
-                alert('Gagal menyimpan data. Periksa URL Apps Script Anda.');
-                console.error('Error!', error.message);
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Simpan Semua Data';
+        // Susun objek data terstruktur dari tabel untuk dikirim ke Google Sheet
+        const rowsData = [];
+        const allRows = tbody.querySelectorAll('tr');
+        
+        allRows.forEach(tr => {
+            const idRow = tr.querySelector('.input-num').getAttribute('data-id');
+            rowsData.push({
+                gi: tr.getAttribute('data-gi'),
+                trafo: tr.getAttribute('data-trafo'),
+                penyulang: tr.getAttribute('data-pname'),
+                lwbp1: tr.querySelector(`[data-id="${idRow}"][data-type="lwbp1"]`).value,
+                lwbp2: tr.querySelector(`[data-id="${idRow}"][data-type="lwbp2"]`).value,
+                wbp: tr.querySelector(`[data-id="${idRow}"][data-type="wbp"]`).value,
+                total: document.getElementById(`total_${idRow}`).value,
+                kvarh: tr.querySelector(`[data-id="${idRow}"][data-type="kvarh"]`).value
             });
+        });
+
+        // Kirim data menggunakan metode JSON stringify (bukan FormData biasa agar kuat menampung baris massal)
+        fetch(scriptURL, { 
+            method: 'POST', 
+            body: JSON.stringify({ rows: rowsData })
+        })
+        .then(response => {
+            alert('Hebat! Seluruh data parameter Trafo I, II, dan III sukses disimpan ke Google Sheets.');
+            form.reset();
+            // Reset semua nilai tampilan teks total menjadi 0
+            document.querySelectorAll('.input-total').forEach(el => el.value = "0");
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Simpan Semua Data';
+        })
+        .catch(error => {
+            alert('Gagal menyimpan, mohon periksa sambungan internet atau keaktifan URL Apps Script.');
+            console.error('Error!', error.message);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Simpan Semua Data';
+        });
     });
 </script>
 
