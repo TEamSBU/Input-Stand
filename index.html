@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Energi Penyulang - GI Kenjeran</title>
+    <title>Dashboard Energi Penyulang - UP3 Surabaya Utara</title>
     <style>
         :root {
             --primary: #2563eb;
@@ -17,240 +17,46 @@
             --success: #10b981;
             --success-hover: #059669;
         }
-
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; 
-        }
-
-        body { 
-            background-color: var(--bg-main); 
-            color: var(--text-main);
-            padding: 20px 15px; 
-            display: flex; 
-            justify-content: center; 
-        }
-
-        .container { 
-            background-color: var(--bg-card); 
-            padding: 30px 25px; 
-            border-radius: 16px; 
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3), 0 8px 10px -6px rgba(0,0,0,0.3); 
-            width: 100%; 
-            max-width: 1150px; 
-        }
-
-        .header-section {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 20px;
-        }
-
-        h2 { 
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            margin-bottom: 8px; 
-            color: var(--text-main); 
-        }
-
-        p.subtitle { 
-            color: var(--text-muted); 
-            font-size: 14px; 
-        }
-
-        .filter-section { 
-            background-color: rgba(15, 23, 42, 0.6); 
-            padding: 20px; 
-            border-radius: 12px; 
-            margin-bottom: 25px; 
-            border: 1px solid var(--border); 
-            display: flex; 
-            gap: 20px; 
-            align-items: center; 
-        }
-
-        .filter-group { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 8px; 
-            width: 100%; 
-            max-width: 280px; 
-        }
-
-        .filter-group label { 
-            font-size: 12px; 
-            font-weight: 700; 
-            color: var(--text-muted); 
-            letter-spacing: 0.05em;
-        }
-
-        .select-custom { 
-            padding: 12px; 
-            border: 1px solid var(--border); 
-            border-radius: 8px; 
-            font-size: 14px; 
-            outline: none; 
-            background-color: var(--input-bg); 
-            color: var(--text-main);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .select-custom:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-        }
-        
-        .select-custom:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .table-wrapper { 
-            overflow-x: auto; 
-            margin-bottom: 30px; 
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            font-size: 13px; 
-            min-width: 850px; 
-            background-color: rgba(15, 23, 42, 0.3);
-        }
-
-        th, td { 
-            padding: 12px 14px; 
-            text-align: left; 
-            border-bottom: 1px solid var(--border);
-        }
-
-        th { 
-            background-color: #1e293b; 
-            color: var(--text-muted); 
-            font-weight: 600; 
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 0.05em;
-            border-bottom: 2px solid var(--border);
-        }
-
-        tbody tr {
-            transition: background-color 0.15s;
-        }
-
-        tbody tr:hover {
-            background-color: rgba(51, 65, 85, 0.3);
-        }
-
-        td b {
-            color: #f1f5f9;
-            font-weight: 600;
-        }
-        
-        .input-num { 
-            width: 100%; 
-            padding: 10px 12px; 
-            border: 1px solid var(--border); 
-            border-radius: 6px; 
-            font-size: 14px; 
-            text-align: right; 
-            outline: none; 
-            background-color: var(--input-bg);
-            color: var(--text-main);
-            transition: all 0.2s;
-        }
-
-        .input-num:focus { 
-            border-color: var(--primary); 
-            background-color: rgba(15, 23, 42, 0.8);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
-        
-        .input-num::placeholder {
-            color: #475569;
-        }
-
-        .btn-container { 
-            text-align: right; 
-        }
-
-        .btn-submit { 
-            padding: 14px 40px; 
-            background-color: var(--success); 
-            color: white; 
-            border: none; 
-            border-radius: 8px; 
-            font-size: 15px; 
-            font-weight: 600; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            width: 100%; 
-            max-width: 280px; 
-            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
-        }
-
-        .btn-submit:hover { 
-            background-color: var(--success-hover); 
-            transform: translateY(-1px);
-        }
-
-        .btn-submit:active {
-            transform: translateY(0);
-        }
-
-        .btn-submit:disabled { 
-            background-color: #475569; 
-            color: #94a3b8;
-            cursor: not-allowed; 
-            transform: none;
-            box-shadow: none;
-        }
-
-        @media (max-width: 640px) {
-            .filter-section {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 12px;
-            }
-            .filter-group {
-                max-width: 100%;
-            }
-            .btn-submit {
-                max-width: 100%;
-            }
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); padding: 20px 15px; display: flex; justify-content: center; }
+        .container { background-color: var(--bg-card); padding: 30px 25px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); width: 100%; max-width: 1200px; }
+        .header-section { text-align: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+        p.subtitle { color: var(--text-muted); font-size: 14px; }
+        .filter-section { background-color: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 20px; }
+        .filter-group { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 200px; }
+        .filter-group label { font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.05em; }
+        .select-custom { padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none; background-color: var(--input-bg); color: var(--text-main); font-weight: 600; cursor: pointer; }
+        .select-custom:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); }
+        .table-wrapper { overflow-x: auto; margin-bottom: 30px; border-radius: 12px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 850px; }
+        th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background-color: #1e293b; color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; }
+        tbody tr:hover { background-color: rgba(51, 65, 85, 0.3); }
+        td b { color: #f1f5f9; }
+        .input-num { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; text-align: right; outline: none; background-color: var(--input-bg); color: var(--text-main); }
+        .input-num:focus { border-color: var(--primary); background-color: rgba(15, 23, 42, 0.8); }
+        .btn-container { text-align: right; }
+        .btn-submit { padding: 14px 40px; background-color: var(--success); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; width: 100%; max-width: 280px; }
+        .btn-submit:hover { background-color: var(--success-hover); }
+        @media (max-width: 640px) { .filter-section { flex-direction: column; } .filter-group, .btn-submit { max-width: 100%; } }
     </style>
 </head>
 <body>
-
 <div class="container">
     <div class="header-section">
-        <h2>Penyulang GI Kenjeran Dashboard</h2>
-        <p class="subtitle">Pilih Trafo operasional, lengkapi semua parameter entri stand secara manual, lalu simpan.</p>
+        <h2>Dashboard Monitoring Parameter Distribusi</h2>
+        <p class="subtitle">Sistem Entri Data Operasional Distribusi Jaringan UP3 Surabaya Utara</p>
     </div>
     
     <div class="filter-section">
         <div class="filter-group">
-            <label>GARDU INDUK</label>
-            <select class="select-custom" disabled>
-                <option>KENJERAN</option>
-            </select>
+            <label>PILIH GARDU INDUK (GI)</label>
+            <select id="giSelect" class="select-custom"></select>
         </div>
         <div class="filter-group">
-            <label for="trafoSelect">PILIH TRAFO METER</label>
-            <select id="trafoSelect" class="select-custom">
-                <option value="I">TRAFO I</option>
-                <option value="II">TRAFO II</option>
-                <option value="III">TRAFO III</option>
-            </select>
+            <label>PILIH TRAFO METER</label>
+            <select id="trafoSelect" class="select-custom"></select>
         </div>
     </div>
 
@@ -271,27 +77,113 @@
                 </tbody>
             </table>
         </div>
-        
         <div class="btn-container">
-            <button type="submit" id="submitBtn" class="btn-submit">Simpan Data Trafo</button>
+            <button type="submit" id="submitBtn" class="btn-submit">Simpan Data GI & Trafo</button>
         </div>
     </form>
 </div>
-
 <script>
-    const penyulangMaster = {
-        "I": ["Meter Utama", "Meter Pembanding", "PS", "Kalijudan", "Babatan", "Tmbk Sari", "Kr. Asem", "Resman", "Putro Agung", "Kp. Krampung", "Ked. Cowek", "Tb. Deres"],
-        "II": ["Meter Utama", "Meter Pembanding", "PS", "Mojoarum", "Dh. Husada", "Rangkah", "Tuwowo", "Kaliondo", "Mulyosari", "Sidoyoso", "Kapas Jaya", "Wiratno"],
-        "III": ["Meter Utama", "Meter Pembanding", "PS", "Pogot", "Bogen", "Gersikan", "Wisma Permai", "AURI", "Tampurejo", "Platuk"]
+    // Database Lengkap Struktur Jaringan UP3 Surabaya Utara
+    const dbSistem = {
+        "KENJERAN": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Kalijudan", "Babatan", "Tmbk Sari", "Kr. Asem", "Resman", "Putro Agung", "Kp. Krampung", "Ked. Cowek", "Tb. Deres"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Mojoarum", "Dh. Husada", "Rangkah", "Tuwowo", "Kaliondo", "Mulyosari", "Sidoyoso", "Kapas Jaya", "Wiratno"],
+            "III": ["Meter Utama", "Meter Pembanding", "PS", "Pogot", "Bogen", "Gersikan", "Wisma Permai", "AURI", "Tampurejo", "Platuk"]
+        },
+        "KREMBANGAN": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Indrapura", "Jepara", "Atom", "Prk. Timur", "Lamicitra", "Rajawali", "Bumimoro", "Bogasari I", "Bogasari II", "Lumba-Lumba", "Wakil Rakyat"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Jakarta", "Kalimas", "Tb. Gringsing", "Sidorame", "Johor", "BBI", "Prapat Kr.", "Priok", "Pelabuhan", "Dupak"],
+            "III": ["Meter Utama", "Meter Pembanding", "PS", "Pasar Turi", "Telekom", "Kebon Rojo", "Purwodadi", "Kalianak", "TPS", "Samudra", "Bank Indonesia"]
+        },
+        "KUPANG": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "M Duryat", "Kedung Sari", "Tegal Sari", "Kaliasin", "Ps. Kembang", "TP 5A", "Empire", "Bs. Rahmat", "Cempaka", "Kedondong", "Ked. Rukem", "Kmp. Malang", "Trunojoyo"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Sheraton", "TP 5B", "Imam Bonjol/Santika", "TP 6A", "TP 6B", "B. Runcing", "Lemah Putro"]
+        },
+        "NGAGEL": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Pucang Sewu", "Kali Bokor", "Barata"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Bilka", "Ratna", "Ciliwung", "Sulawesi", "Pucang Adi", "Lumumba", "Diponegoro", "Ciwo", "Exp Ngagel 2", "Exp Ngagel 3"]
+        },
+        "PERAK": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Dermaga Ex Pel I", "Nasir Ex Pel II", "Nilam I", "Nilam II", "Jamrud", "Mutiara"]
+        },
+        "SAWAHAN": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Simorejo", "Ked. Doro", "Petemon", "Widodaren", "Mrgyoso", "Tmbk. Pring", "Simo Kwagean", "Simo Gunung", "DPRD Jatim"],
+            "III": ["Meter Utama", "Meter Pembanding", "PS", "Margorukun", "Tidar", "Ketandan", "Semarang", "Demak", "Asem Rowo", "Arjuno", "Kalibutuh", "Emb. Malang", "Bukit Bar."]
+        },
+        "SIMPANG": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Grahadi", "Yos Sudarso", "Ngemplak", "KS. Bangsa", "Tmn. Surya", "Radison I", "TP. Siring", "Ometraco", "ITC", "Ketabang", "Dr Soetomo"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "BRI Tower", "Kalimantan", "T. Plaza", "Hanamasa", "Galaxi", "Sogo 1", "Sogo 2"]
+        },
+        "TANDES": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Tnj Sari", "Mjo", "Margomulyo", "Gadukan", "Greges", "Dumar", "Buntaran", "BMI", "Menara", "Mashindo"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Darmo Permai", "Banyu Urip", "Sukomanunggal", "Gedang Asin", "Bibis Tama", "Simo Jawar", "Gds 4", "Gds 5", "Gds 6"],
+            "III": ["Meter Utama", "Meter Pembanding", "PS", "Asian Profile 1", "Asian Profile 2", "Bhirawa I", "Bhirawa II", "Gds 1", "Gds 2", "Indowire", "Lamong 3", "Lamong 4"],
+            "IV": ["Meter Utama", "Meter Pembanding", "PS", "Meshindo Ex Gds"]
+        },
+        "UNDAAN": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Kamboja", "Ach Jaiz", "Jagalan", "Pengampon", "Simp Dukuh", "Praban", "Genteng Kali", "Embong Purn", "Gemblongan", "Senopati", "Soka", "Grand City"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Pegirian", "Kapasari", "Kertopaten", "Pragoto", "Mustopo", "Baliwerti", "WTC", "Tmn Apsari", "Balai Kota", "Stadion"]
+        },
+        "UJUNG": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Pal I", "Pal II", "Pal III", "Pnt Mulya", "Lantamal I Ex Spare", "Lantamal III"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Tb. Wedi", "Wonosari", "Rowo Br", "Hangtuah", "Lantamal II", "Blk Banteng"]
+        },
+        "SAMBIKEREP": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Casablanca", "Klakarejo", "Sememi", "Rd Padangan", "Adelaide", "Sambalan"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Victoria", "Kendung", "Bringin", "Alas Malang", "Moroseneng", "North West"]
+        },
+        "PT INDOFOOD": {
+            "I": ["PT Indofood"]
+        },
+        "KALISARI": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Ir Soekarno", "Arkadia", "Nakamura", "Pantai Timur", "Riverside", "Gading Pantai", "Kenpark", "S Galaxy 1", "Elgrand", "S Galaxy 2", "Persia", "Pakuwon City 1", "Pakuwon City 2"]
+        },
+        "KEDINDING": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "M Noer", "Al Fitrah", "Nambangan", "Grand Sagara", "Kalilom", "East Coast", "Surabaya Park"]
+        },
+        "SUKOLILO": {
+            "III": ["Meter Utama", "Meter Pembanding", "PS", "Semolo", "Kalidami", "Gebang Lor", "Srikana", "Lotus", "PAM", "Bratang Kalisumo", "Bengkel", "Megah Raya", "Kali Rungkut", "Atlas", "Tropical"],
+            "IV": ["Meter Utama", "Meter Pembanding", "PS", "Bima 1", "Bima 2", "Klampis", "Kertajaya"]
+        },
+        "GEMBONG": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Simokerto", "Kapasan", "Mega Grosir", "Alimar", "Arabica", "Soewandi"]
+        },
+        "WONOKROMO": {
+            "III": ["Meter Utama", "Meter Pembanding", "PS", "Prapen", "Univ Hang Tuah", "Exp Wonokromo 1 (Marga Satwa)", "Exp Wonokromo 2 (Ciwo 2)", "Exp Wonokromo 3 (Indragiri)", "PAM 4", "Joyoboyo", "Kejaksaan", "Adityawarman", "Royal 1", "Ketintang", "Petrokimia", "Mangga Dua", "PAM 3"]
+        }
     };
 
+    const giSelect = document.getElementById('giSelect');
     const trafoSelect = document.getElementById('trafoSelect');
     const tbody = document.getElementById('tableBody');
 
-    function renderPenyulang(trafoId) {
-        tbody.innerHTML = ""; 
-        const listPenyulang = penyulangMaster[trafoId];
+    // Inisialisasi Dropdown Pilihan Gardu Induk
+    Object.keys(dbSistem).forEach(giName => {
+        const opt = document.createElement('option');
+        opt.value = giName; opt.textContent = giName;
+        giSelect.appendChild(opt);
+    });
+
+    function updateTrafoOptions() {
+        trafoSelect.innerHTML = "";
+        const selectedGI = giSelect.value;
+        const trafoList = Object.keys(dbSistem[selectedGI]);
         
+        trafoList.forEach(tId => {
+            const opt = document.createElement('option');
+            opt.value = tId; opt.textContent = `TRAFO ${tId}`;
+            trafoSelect.appendChild(opt);
+        });
+        renderTable();
+    }
+
+    function renderTable() {
+        tbody.innerHTML = "";
+        const currentGI = giSelect.value;
+        const currentTrafo = trafoSelect.value;
+        if (!currentGI || !currentTrafo) return;
+
+        const listPenyulang = dbSistem[currentGI][currentTrafo];
         listPenyulang.forEach(pName => {
             const tr = document.createElement('tr');
             tr.setAttribute('data-pname', pName);
@@ -307,14 +199,12 @@
         });
     }
 
-    renderPenyulang(trafoSelect.value);
+    giSelect.addEventListener('change', updateTrafoOptions);
+    trafoSelect.addEventListener('change', renderTable);
+    updateTrafoOptions(); // Jalankan auto setup pertama kali dibuka
 
-    trafoSelect.addEventListener('change', (e) => {
-        renderPenyulang(e.target.value);
-    });
-
-    // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwAKdHfAVeKeFEEIWWJtMO93TP3U048xplV0fU8mDYG_QR6LaC4ENaZmXUZDjylpz4N/exec';
+    // URL WEB APP GOOGLE APPS SCRIPT ANDA
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxOPnIxN2-xTw2CleszjJTmlnATZmlAdsltNOfjOSTPyDE0xdyzjmOVbxjRsSevrrrP8Q/exec';
     const form = document.getElementById('matrixForm');
     const submitBtn = document.getElementById('submitBtn');
 
@@ -323,14 +213,15 @@
         submitBtn.disabled = true;
         submitBtn.innerHTML = 'Menyimpan...';
 
-        const selectedTrafo = trafoSelect.value;
+        const giVal = giSelect.value;
+        const trafoVal = `TRAFO ${trafoSelect.value}`;
         const rowsData = [];
         const allRows = tbody.querySelectorAll('tr');
         
         allRows.forEach(tr => {
             rowsData.push({
-                gi: 'KENJERAN',
-                trafo: `TRAFO ${selectedTrafo}`,
+                gi: giVal,
+                trafo: trafoVal,
                 penyulang: tr.getAttribute('data-pname'),
                 lwbp1: tr.querySelector('.lwbp1').value,
                 lwbp2: tr.querySelector('.lwbp2').value,
@@ -340,24 +231,17 @@
             });
         });
 
-        fetch(scriptURL, { 
-            method: 'POST', 
-            body: JSON.stringify({ rows: rowsData })
-        })
+        fetch(scriptURL, { method: 'POST', body: JSON.stringify({ rows: rowsData }) })
         .then(response => {
-            alert(`Sukses! Data Parameter TRAFO ${selectedTrafo} berhasil disimpan.`);
+            alert(`Sukses! Seluruh data ${giVal} ${trafoVal} berhasil disimpan ke Google Sheets.`);
             form.reset();
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Simpan Data Trafo';
+            submitBtn.innerHTML = 'Simpan Data GI & Trafo';
         })
         .catch(error => {
             alert('Gagal menyimpan, mohon periksa koneksi internet.');
             console.error('Error!', error.message);
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Simpan Data Trafo';
-        });
-    });
-</script>
-
-</body>
-</html>
+submitBtn.innerHTML = 'Simpan Data GI & Trafo';
+});
+});
