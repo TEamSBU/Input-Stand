@@ -36,6 +36,14 @@
         td b { color: #f1f5f9; }
         .input-num { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; text-align: right; outline: none; background-color: var(--input-bg); color: var(--text-main); }
         .input-num:focus { border-color: var(--primary); background-color: rgba(15, 23, 42, 0.8); }
+         .input-num::-webkit-outer-spin-button,
+        .input-num::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .input-num {
+            -moz-appearance: textfield;
+        }
         .btn-container { text-align: right; }
         .btn-submit { padding: 14px 40px; background-color: var(--success); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; width: 100%; max-width: 280px; }
         .btn-submit:hover { background-color: var(--success-hover); }
