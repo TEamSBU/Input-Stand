@@ -17,7 +17,7 @@
             --success: #10b981;
             --success-hover: #059669;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background-color: var(--bg-main); color: var(--text-main); padding: 20px 15px; display: flex; justify-content: center; }
         .container { background-color: var(--bg-card); padding: 30px 25px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); width: 100%; max-width: 1200px; }
         .header-section { text-align: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
@@ -48,7 +48,6 @@
         <h2>Dashboard Monitoring Parameter Distribusi</h2>
         <p class="subtitle">Sistem Entri Data Operasional Distribusi Jaringan UP3 Surabaya Utara</p>
     </div>
-    
     <div class="filter-section">
         <div class="filter-group">
             <label>PILIH GARDU INDUK (GI)</label>
@@ -59,7 +58,6 @@
             <select id="trafoSelect" class="select-custom"></select>
         </div>
     </div>
-
     <form id="matrixForm">
         <div class="table-wrapper">
             <table>
@@ -73,8 +71,7 @@
                         <th style="width: 125px;">kVarh</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody">
-                </tbody>
+                <tbody id="tableBody"></tbody>
             </table>
         </div>
         <div class="btn-container">
@@ -83,7 +80,6 @@
     </form>
 </div>
 <script>
-    // Database Lengkap Struktur Jaringan UP3 Surabaya Utara
     const dbSistem = {
         "KENJERAN": {
             "I": ["Meter Utama", "Meter Pembanding", "PS", "Kalijudan", "Babatan", "Tmbk Sari", "Kr. Asem", "Resman", "Putro Agung", "Kp. Krampung", "Ked. Cowek", "Tb. Deres"],
@@ -132,9 +128,7 @@
             "I": ["Meter Utama", "Meter Pembanding", "PS", "Casablanca", "Klakarejo", "Sememi", "Rd Padangan", "Adelaide", "Sambalan"],
             "II": ["Meter Utama", "Meter Pembanding", "PS", "Victoria", "Kendung", "Bringin", "Alas Malang", "Moroseneng", "North West"]
         },
-        "PT INDOFOOD": {
-            "I": ["PT Indofood"]
-        },
+        "PT INDOFOOD": { "I": ["PT Indofood"] },
         "KALISARI": {
             "I": ["Meter Utama", "Meter Pembanding", "PS", "Ir Soekarno", "Arkadia", "Nakamura", "Pantai Timur", "Riverside", "Gading Pantai", "Kenpark", "S Galaxy 1", "Elgrand", "S Galaxy 2", "Persia", "Pakuwon City 1", "Pakuwon City 2"]
         },
@@ -152,12 +146,10 @@
             "III": ["Meter Utama", "Meter Pembanding", "PS", "Prapen", "Univ Hang Tuah", "Exp Wonokromo 1 (Marga Satwa)", "Exp Wonokromo 2 (Ciwo 2)", "Exp Wonokromo 3 (Indragiri)", "PAM 4", "Joyoboyo", "Kejaksaan", "Adityawarman", "Royal 1", "Ketintang", "Petrokimia", "Mangga Dua", "PAM 3"]
         }
     };
-
     const giSelect = document.getElementById('giSelect');
     const trafoSelect = document.getElementById('trafoSelect');
     const tbody = document.getElementById('tableBody');
 
-    // Inisialisasi Dropdown Pilihan Gardu Induk
     Object.keys(dbSistem).forEach(giName => {
         const opt = document.createElement('option');
         opt.value = giName; opt.textContent = giName;
@@ -168,7 +160,6 @@
         trafoSelect.innerHTML = "";
         const selectedGI = giSelect.value;
         const trafoList = Object.keys(dbSistem[selectedGI]);
-        
         trafoList.forEach(tId => {
             const opt = document.createElement('option');
             opt.value = tId; opt.textContent = `TRAFO ${tId}`;
@@ -201,9 +192,9 @@
 
     giSelect.addEventListener('change', updateTrafoOptions);
     trafoSelect.addEventListener('change', renderTable);
-    updateTrafoOptions(); // Jalankan auto setup pertama kali dibuka
+    updateTrafoOptions();
 
-    // URL WEB APP GOOGLE APPS SCRIPT ANDA
+    // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
     const scriptURL = 'https://script.google.com/macros/s/AKfycbxOPnIxN2-xTw2CleszjJTmlnATZmlAdsltNOfjOSTPyDE0xdyzjmOVbxjRsSevrrrP8Q/exec';
     const form = document.getElementById('matrixForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -233,7 +224,7 @@
 
         fetch(scriptURL, { method: 'POST', body: JSON.stringify({ rows: rowsData }) })
         .then(response => {
-            alert(`Sukses! Seluruh data ${giVal} ${trafoVal} berhasil disimpan ke Google Sheets.`);
+            alert(`Sukses! Seluruh data ${giVal} ${trafoVal} berhasil disimpan.`);
             form.reset();
             submitBtn.disabled = false;
             submitBtn.innerHTML = 'Simpan Data GI & Trafo';
@@ -242,6 +233,9 @@
             alert('Gagal menyimpan, mohon periksa koneksi internet.');
             console.error('Error!', error.message);
             submitBtn.disabled = false;
-submitBtn.innerHTML = 'Simpan Data GI & Trafo';
-});
-});
+            submitBtn.innerHTML = 'Simpan Data GI & Trafo';
+        });
+    });
+</script>
+</body>
+</html>
