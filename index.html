@@ -5,39 +5,238 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Energi Penyulang - GI Kenjeran</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background-color: #f4f7f6; padding: 15px; display: flex; justify-content: center; }
-        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); width: 100%; max-width: 1100px; }
-        h2 { text-align: center; margin-bottom: 5px; color: #333; }
-        p.subtitle { text-align: center; color: #666; margin-bottom: 20px; font-size: 14px; }
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --input-bg: #0f172a;
+            --success: #10b981;
+            --success-hover: #059669;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; 
+        }
+
+        body { 
+            background-color: var(--bg-main); 
+            color: var(--text-main);
+            padding: 20px 15px; 
+            display: flex; 
+            justify-content: center; 
+        }
+
+        .container { 
+            background-color: var(--bg-card); 
+            padding: 30px 25px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3), 0 8px 10px -6px rgba(0,0,0,0.3); 
+            width: 100%; 
+            max-width: 1150px; 
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        h2 { 
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 8px; 
+            color: var(--text-main); 
+        }
+
+        p.subtitle { 
+            color: var(--text-muted); 
+            font-size: 14px; 
+        }
+
+        .filter-section { 
+            background-color: rgba(15, 23, 42, 0.6); 
+            padding: 20px; 
+            border-radius: 12px; 
+            margin-bottom: 25px; 
+            border: 1px solid var(--border); 
+            display: flex; 
+            gap: 20px; 
+            align-items: center; 
+        }
+
+        .filter-group { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+            width: 100%; 
+            max-width: 280px; 
+        }
+
+        .filter-group label { 
+            font-size: 12px; 
+            font-weight: 700; 
+            color: var(--text-muted); 
+            letter-spacing: 0.05em;
+        }
+
+        .select-custom { 
+            padding: 12px; 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            font-size: 14px; 
+            outline: none; 
+            background-color: var(--input-bg); 
+            color: var(--text-main);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
         
-        /* Style Filter Dropdown */
-        .filter-section { background-color: #f8f9fa; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #e9ecef; display: flex; gap: 15px; align-items: center; }
-        .filter-group { display: flex; flex-direction: column; gap: 5px; width: 100%; max-width: 250px; }
-        .filter-group label { font-size: 13px; font-weight: 600; color: #444; }
-        .select-custom { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; outline: none; background-color: #fff; }
+        .select-custom:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
         
-        .table-wrapper { overflow-x: auto; margin-bottom: 25px; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 750px; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-        th { background-color: #007bff; color: white; font-weight: 600; text-align: center; }
+        .select-custom:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .table-wrapper { 
+            overflow-x: auto; 
+            margin-bottom: 30px; 
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-size: 13px; 
+            min-width: 850px; 
+            background-color: rgba(15, 23, 42, 0.3);
+        }
+
+        th, td { 
+            padding: 12px 14px; 
+            text-align: left; 
+            border-bottom: 1px solid var(--border);
+        }
+
+        th { 
+            background-color: #1e293b; 
+            color: var(--text-muted); 
+            font-weight: 600; 
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid var(--border);
+        }
+
+        tbody tr {
+            transition: background-color 0.15s;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(51, 65, 85, 0.3);
+        }
+
+        td b {
+            color: #f1f5f9;
+            font-weight: 600;
+        }
         
-        .input-num { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; text-align: right; outline: none; }
-        .input-num:focus { border-color: #007bff; background-color: #fffdf0; }
+        .input-num { 
+            width: 100%; 
+            padding: 10px 12px; 
+            border: 1px solid var(--border); 
+            border-radius: 6px; 
+            font-size: 14px; 
+            text-align: right; 
+            outline: none; 
+            background-color: var(--input-bg);
+            color: var(--text-main);
+            transition: all 0.2s;
+        }
+
+        .input-num:focus { 
+            border-color: var(--primary); 
+            background-color: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
         
-        .btn-container { text-align: right; }
-        .btn-submit { padding: 12px 40px; background-color: #28a745; color: white; border: none; border-radius: 5px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.2s; width: 100%; max-width: 250px; }
-        .btn-submit:hover { background-color: #218838; }
-        .btn-submit:disabled { background-color: #ccc; cursor: not-allowed; }
+        .input-num::placeholder {
+            color: #475569;
+        }
+
+        .btn-container { 
+            text-align: right; 
+        }
+
+        .btn-submit { 
+            padding: 14px 40px; 
+            background-color: var(--success); 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 15px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            width: 100%; 
+            max-width: 280px; 
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-submit:hover { 
+            background-color: var(--success-hover); 
+            transform: translateY(-1px);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit:disabled { 
+            background-color: #475569; 
+            color: #94a3b8;
+            cursor: not-allowed; 
+            transform: none;
+            box-shadow: none;
+        }
+
+        @media (max-width: 640px) {
+            .filter-section {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .filter-group {
+                max-width: 100%;
+            }
+            .btn-submit {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Form Input Parameter Penyulang GI Kenjeran</h2>
-    <p class="subtitle">Pilih Trafo terlebih dahulu untuk menampilkan daftar penyulangnya, lalu isi data secara manual.</p>
+    <div class="header-section">
+        <h2>Penyulang GI Kenjeran Dashboard</h2>
+        <p class="subtitle">Pilih Trafo operasional, lengkapi semua parameter entri stand secara manual, lalu simpan.</p>
+    </div>
     
-    <!-- Filter Section (Dropdown) -->
     <div class="filter-section">
         <div class="filter-group">
             <label>GARDU INDUK</label>
@@ -46,7 +245,7 @@
             </select>
         </div>
         <div class="filter-group">
-            <label for="trafoSelect">PILIH TRAFO</label>
+            <label for="trafoSelect">PILIH TRAFO METER</label>
             <select id="trafoSelect" class="select-custom">
                 <option value="I">TRAFO I</option>
                 <option value="II">TRAFO II</option>
@@ -55,22 +254,20 @@
         </div>
     </div>
 
-    <!-- Form Tabel Data -->
     <form id="matrixForm">
         <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
-                        <th>NAMA PENYULANG</th>
-                        <th style="width: 120px;">LWBP 1</th>
-                        <th style="width: 120px;">LWBP 2</th>
-                        <th style="width: 120px;">WBP</th>
-                        <th style="width: 130px;">TOTAL</th>
-                        <th style="width: 120px;">kVarh</th>
+                        <th>Nama Penyulang</th>
+                        <th style="width: 125px;">LWBP 1</th>
+                        <th style="width: 125px;">LWBP 2</th>
+                        <th style="width: 125px;">WBP</th>
+                        <th style="width: 135px;">TOTAL</th>
+                        <th style="width: 125px;">kVarh</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <!-- Baris penyulang akan dimuat dinamis lewat JavaScript -->
                 </tbody>
             </table>
         </div>
@@ -82,7 +279,6 @@
 </div>
 
 <script>
-    // Struktur Data Master Penyulang
     const penyulangMaster = {
         "I": ["Meter Utama", "Meter Pembanding", "PS", "Kalijudan", "Babatan", "Tmbk Sari", "Kr. Asem", "Resman", "Putro Agung", "Kp. Krampung", "Ked. Cowek", "Tb. Deres"],
         "II": ["Meter Utama", "Meter Pembanding", "PS", "Mojoarum", "Dh. Husada", "Rangkah", "Tuwowo", "Kaliondo", "Mulyosari", "Sidoyoso", "Kapas Jaya", "Wiratno"],
@@ -92,9 +288,8 @@
     const trafoSelect = document.getElementById('trafoSelect');
     const tbody = document.getElementById('tableBody');
 
-    // Fungsi untuk memuat daftar penyulang berdasarkan Trafo yang dipilih
     function renderPenyulang(trafoId) {
-        tbody.innerHTML = ""; // Bersihkan tabel lama
+        tbody.innerHTML = ""; 
         const listPenyulang = penyulangMaster[trafoId];
         
         listPenyulang.forEach(pName => {
@@ -112,10 +307,8 @@
         });
     }
 
-    // Jalankan pertama kali untuk TRAFO I saat halaman dibuka
     renderPenyulang(trafoSelect.value);
 
-    // Event ketika dropdown Pilihan Trafo diubah
     trafoSelect.addEventListener('change', (e) => {
         renderPenyulang(e.target.value);
     });
@@ -128,7 +321,7 @@
     form.addEventListener('submit', e => {
         e.preventDefault();
         submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Menyimpan Data...';
+        submitBtn.innerHTML = 'Menyimpan...';
 
         const selectedTrafo = trafoSelect.value;
         const rowsData = [];
@@ -152,13 +345,13 @@
             body: JSON.stringify({ rows: rowsData })
         })
         .then(response => {
-            alert(`Sukses! Data Parameter TRAFO ${selectedTrafo} berhasil disimpan ke Google Sheets.`);
+            alert(`Sukses! Data Parameter TRAFO ${selectedTrafo} berhasil disimpan.`);
             form.reset();
             submitBtn.disabled = false;
             submitBtn.innerHTML = 'Simpan Data Trafo';
         })
         .catch(error => {
-            alert('Gagal menyimpan, mohon periksa koneksi internet atau validitas URL Apps Script.');
+            alert('Gagal menyimpan, mohon periksa koneksi internet.');
             console.error('Error!', error.message);
             submitBtn.disabled = false;
             submitBtn.innerHTML = 'Simpan Data Trafo';
