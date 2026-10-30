@@ -19,22 +19,23 @@
         }
 
         .container { 
+                    .container { 
             background-color: var(--bg-card); 
             padding: 30px 25px; 
             border-radius: 16px; 
             box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); 
             width: 100%; 
             max-width: 1200px; 
-            position: relative; /* <--- WAJIB ADA AGAR LOGO MENGIKUTI CONTAINER */
+            position: relative;
         }
 
-        /* TIMPA ATAU TARUH KODE LOGO BARU INI DI SINI */
-        .logo-wrapper-pln {
+        .logo-pln {
             position: absolute;
-            top: 25px;       
+            top: 20px;       
             left: 25px;      
-            width: 45px;     
-            height: 60px;    
+            height: 65px;
+            width: auto;
+            object-fit: contain;
         }
 
         .header-section {
@@ -47,14 +48,13 @@
 
         @media (max-width: 768px) {
             .container {
-                padding-top: 90px; 
+                padding-top: 100px;
             }
-            .logo-wrapper-pln {
+            .logo-pln {
                 left: 50%;
-                transform: translateX(-50%); 
+                transform: translateX(-50%);
                 top: 20px;
-                width: 40px;
-                height: 53px;
+                height: 60px;
             }
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
@@ -92,14 +92,8 @@
 </head>
 <body>
 <div class="container">
-     <div class="logo-wrapper-pln">
-        <svg xmlns="http://w3.org" viewBox="0 0 160 210" width="100%" height="100%">
-            <rect width="140" height="190" x="10" y="10" rx="12" fill="#0066B3"/>
-            <rect width="124" height="174" x="18" y="18" rx="8" fill="#FFFFFF"/>
-            <path d="M92 34 H124 L86 102 H114 L54 176 L66 112 H38 Z" fill="#E31E24"/>
-            <path d="M88 34 H116 L80 96 H106 L54 162 L64 112 H38 Z" fill="#FFD200"/>
-        </svg>
-    </div>
+    <img src="https://wikimedia.org" alt="Logo PLN Resmi" class="logo-pln">
+    
     <div class="header-section">
         <h2>GI - PENYULANG DISTRIBUSI</h2>
         <p class="subtitle">Entri Data GI-Penyulang UP3 Surabaya Utara</p>
