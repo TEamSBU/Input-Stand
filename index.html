@@ -17,6 +17,46 @@
             --success: #10b981;
             --success-hover: #059669;
         }
+
+        .container { 
+            background-color: var(--bg-card); 
+            padding: 30px 25px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); 
+            width: 100%; 
+            max-width: 1200px; 
+            position: relative; /* <--- WAJIB ADA AGAR LOGO MENGIKUTI CONTAINER */
+        }
+
+        /* TIMPA ATAU TARUH KODE LOGO BARU INI DI SINI */
+        .logo-wrapper-pln {
+            position: absolute;
+            top: 25px;       
+            left: 25px;      
+            width: 45px;     
+            height: 60px;    
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            padding-top: 15px; 
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding-top: 90px; 
+            }
+            .logo-wrapper-pln {
+                left: 50%;
+                transform: translateX(-50%); 
+                top: 20px;
+                width: 40px;
+                height: 53px;
+            }
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background-color: var(--bg-main); color: var(--text-main); padding: 20px 15px; display: flex; justify-content: center; }
         .container { background-color: var(--bg-card); padding: 30px 25px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); width: 100%; max-width: 1200px; }
