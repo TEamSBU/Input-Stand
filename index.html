@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Energi Penyulang - UP3 Surabaya Utara</title>
+    <title>Entri Stand UP3 SBU</title>
     <style>
         :root {
             --primary: #2563eb;
@@ -66,7 +66,26 @@
 <body>
 <div class="container">
     <!-- LINK EMBED ASLI SVG LOGO PLN - ANTI PECAH & RESMI -->
-    <img src="https://wikimedia.org" alt="Logo PLN Resmi" class="logo-pln">
+        <!-- REKATKAN KODE LOGO VEKTOR PREMIUM BERIKUT SECARA UTUH -->
+    <div class="logo-pln-svg">
+        <svg xmlns="http://w3.org" viewBox="0 0 120 160" width="100%" height="100%">
+            <!-- Kotak Kuning Utama -->
+            <rect width="120" height="120" fill="#FFE600"/>
+            
+            <!-- Tiga Gelombang Biru Air (Kurva Vektor Halus) -->
+            <path d="M20 42 C30 36, 35 48, 45 42 C55 36, 60 48, 70 42 C80 36, 85 48, 95 42" fill="none" stroke="#00A0E9" stroke-width="4.5" stroke-linecap="round"/>
+            <path d="M20 58 C30 52, 35 64, 45 58 C55 52, 60 64, 70 58 C80 52, 85 64, 95 58" fill="none" stroke="#00A0E9" stroke-width="4.5" stroke-linecap="round"/>
+            <path d="M20 74 C30 68, 35 80, 45 74 C55 68, 60 80, 70 74 C80 68, 85 80, 95 74" fill="none" stroke="#00A0E9" stroke-width="4.5" stroke-linecap="round"/>
+            
+            <!-- Petir Merah Menembus Jantung Logo -->
+            <path d="M68 18 H84 L56 70 H74 L46 106 L52 74 H36 Z" fill="#E31E24"/>
+            
+            <!-- Tulisan Huruf PLN (Murni Vektor Tanpa Font Browser, Dijamin Kokoh & Tidak Berubah) -->
+            <path d="M24 135 H33 C37 135, 40 133.5, 40 130 C40 126.5, 37 125, 33 125 H29 V145 H24 V125 M29 130 H33 C34.5 130, 35 130.5, 35 131 C35 131.5, 34.5 132, 33 132 H29 Z 
+                     M47 125 H52 V141 H62 V145 H47 Z 
+                     M69 125 H74 L84 139 V125 H89 V145 H84 L74 131 V145 H69 Z" fill="#00A0E9"/>
+        </svg>
+    </div>
     
     <div class="header-section">
         <h2>GI - PENYULANG DISTRIBUSI</h2>
@@ -102,7 +121,7 @@
             </table>
         </div>
         <div class="btn-container">
-            <button type="submit" id="submitBtn" class="btn-submit">Simpan Data GI & Trafo</button>
+            <button type="submit" id="submitBtn" class="btn-submit">Simpan Data</button>
         </div>
     </form>
 </div>
@@ -137,16 +156,16 @@
         },
         "TANDES": {
             "I": ["Meter Utama", "Meter Pembanding", "PS", "Tnj Sari", "Mjo", "Margomulyo", "Gadukan", "Greges", "Dumar", "Buntaran", "BMI", "Menara", "Mashindo"],
-            "II": ["Meter Utama", "Meter Pembanding", "PS", "Darmo Permai", "Banyu Urip", "Sukomanunggal", "Gedang Asin", "Bibis Tama", "Simo Jawar", "Gds 4", "Gds 5", "Gds 6"],
-            "III": ["Meter Utama", "Meter Pembanding", "PS", "Asian Profile 1", "Asian Profile 2", "Bhirawa I", "Bhirawa II", "Gds 1", "Gds 2", "Indowire", "Lamong 3", "Lamong 4"],
-            "IV": ["Meter Utama", "Meter Pembanding", "PS", "Meshindo Ex Gds"]
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Darmo Permai", "Banyu Urip", "Sukomanunggal", "Gedang Asin", "Bibis Tama", "Simo Jawar", "GDS 4", "GDS 5", "GDS 6"],
+            "III": ["Meter Utama", "Meter Pembanding", "PS", "Asian Profile 1", "Asian Profile 2", "Bhirawa I", "Bhirawa II", "GDS 1", "GDS 2", "Indowire", "Lamong 3", "Lamong 4"],
+            "IV": ["Meter Utama", "Meter Pembanding", "PS", "Meshindo Ex GDS"]
         },
         "UNDAAN": {
             "I": ["Meter Utama", "Meter Pembanding", "PS", "Kamboja", "Ach Jaiz", "Jagalan", "Pengampon", "Simp Dukuh", "Praban", "Genteng Kali", "Embong Purn", "Gemblongan", "Senopati", "Soka", "Grand City"],
             "II": ["Meter Utama", "Meter Pembanding", "PS", "Pegirian", "Kapasari", "Kertopaten", "Pragoto", "Mustopo", "Baliwerti", "WTC", "Tmn Apsari", "Balai Kota", "Stadion"]
         },
         "UJUNG": {
-            "I": ["Meter Utama", "Meter Pembanding", "PS", "Pal I", "Pal II", "Pal III", "Pnt Mulya", "Lantamal I Ex Spare", "Lantamal III"],
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "PAL I", "PAL II", "PAL III", "Pnt Mulya", "Lantamal I Ex Spare", "Lantamal III"],
             "II": ["Meter Utama", "Meter Pembanding", "PS", "Tb. Wedi", "Wonosari", "Rowo Br", "Hangtuah", "Lantamal II", "Blk Banteng"]
         },
         "SAMBIKEREP": {
