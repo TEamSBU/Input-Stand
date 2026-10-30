@@ -5,6 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entri Stand GI-Penyulang SBU</title>
     <style>
+                /* ... Kode CSS paling atas seperti :root dan body tetap biarkan saja ... */
+
+        .container { 
+            background-color: var(--bg-card); 
+            padding: 30px 25px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); 
+            width: 100%; 
+            max-width: 1200px; 
+            position: relative; /* <--- Menjadi patokan agar logo mengunci di sudut kiri atas container */
+        }
+
+        /* REKATKAN KODE LOGO SVG BARU TEPAT DI SINI */
+        .logo-pln-svg {
+            position: absolute;
+            top: 20px;       
+            left: 25px;      
+            width: 50px;     
+            height: 68px;    
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            padding-top: 15px; 
+        }
+
+        /* RESPONSIVE LAYAR HP (DORONG TABEL DI HP AGAR TIDAK TERTABRAK LOGO) */
+        @media (max-width: 768px) {
+            .container {
+                padding-top: 110px; 
+            }
+            .logo-pln-svg {
+                left: 50%;
+                transform: translateX(-50%); 
+                top: 20px;
+                width: 48px;
+                height: 65px;
+            }
+        }
+
+        /* ... Kode CSS di bawahnya seperti .filter-section, table, dst tetap dilanjutkan seperti biasa ... */
+
         :root {
             --primary: #2563eb;
             --primary-hover: #1d4ed8;
