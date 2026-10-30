@@ -3,53 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entri Stand GI-Penyulang SBU</title>
+    <title>Dashboard Energi Penyulang - UP3 Surabaya Utara</title>
     <style>
-                /* ... Kode CSS paling atas seperti :root dan body tetap biarkan saja ... */
-
-        .container { 
-            background-color: var(--bg-card); 
-            padding: 30px 25px; 
-            border-radius: 16px; 
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); 
-            width: 100%; 
-            max-width: 1200px; 
-            position: relative; /* <--- Menjadi patokan agar logo mengunci di sudut kiri atas container */
-        }
-
-        /* REKATKAN KODE LOGO SVG BARU TEPAT DI SINI */
-        .logo-pln-svg {
-            position: absolute;
-            top: 20px;       
-            left: 25px;      
-            width: 50px;     
-            height: 68px;    
-        }
-
-        .header-section {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 20px;
-            padding-top: 15px; 
-        }
-
-        /* RESPONSIVE LAYAR HP (DORONG TABEL DI HP AGAR TIDAK TERTABRAK LOGO) */
-        @media (max-width: 768px) {
-            .container {
-                padding-top: 110px; 
-            }
-            .logo-pln-svg {
-                left: 50%;
-                transform: translateX(-50%); 
-                top: 20px;
-                width: 48px;
-                height: 65px;
-            }
-        }
-
-        /* ... Kode CSS di bawahnya seperti .filter-section, table, dst tetap dilanjutkan seperti biasa ... */
-
         :root {
             --primary: #2563eb;
             --primary-hover: #1d4ed8;
@@ -62,12 +17,22 @@
             --success: #10b981;
             --success-hover: #059669;
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
         body { background-color: var(--bg-main); color: var(--text-main); padding: 20px 15px; display: flex; justify-content: center; }
-        .container { background-color: var(--bg-card); padding: 30px 25px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); width: 100%; max-width: 1200px; }
-        .header-section { text-align: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
-        h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+        .container { background-color: var(--bg-card); padding: 30px 25px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); width: 100%; max-width: 1200px; position: relative; }
+        
+        /* STYLING LOGO PLN RESMI ASLI - DIJAMIN PRESISI */
+        .logo-pln {
+            position: absolute;
+            top: 20px;       
+            left: 25px;      
+            height: 65px;    
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header-section { text-align: center; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; padding-top: 10px; }
+        h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.025em; }
         p.subtitle { color: var(--text-muted); font-size: 14px; }
         .filter-section { background-color: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 20px; }
         .filter-group { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 200px; }
@@ -80,57 +45,45 @@
         th { background-color: #1e293b; color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; }
         tbody tr:hover { background-color: rgba(51, 65, 85, 0.3); }
         td b { color: #f1f5f9; }
-        .input-num { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; text-align: right; outline: none; background-color: var(--input-bg); color: var(--text-main); }
+        
+        /* INPUT CLEAN TANPA PANAH SPINNER */
+        .input-num { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; text-align: right; outline: none; background-color: var(--input-bg); color: var(--text-main); -moz-appearance: textfield; }
         .input-num:focus { border-color: var(--primary); background-color: rgba(15, 23, 42, 0.8); }
-        .input-num::-webkit-outer-spin-button,
-        .input-num::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        .input-num {
-            -moz-appearance: textfield;
-        }
+        .input-num::-webkit-outer-spin-button, .input-num::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        
         .btn-container { text-align: right; }
         .btn-submit { padding: 14px 40px; background-color: var(--success); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; width: 100%; max-width: 280px; }
         .btn-submit:hover { background-color: var(--success-hover); }
-        @media (max-width: 640px) { .filter-section { flex-direction: column; } .filter-group, .btn-submit { max-width: 100%; } }
+        
+        @media (max-width: 768px) { 
+            .container { padding-top: 110px; } 
+            .logo-pln { left: 50%; transform: translateX(-50%); top: 20px; height: 60px; }
+            .filter-section { flex-direction: column; } 
+            .filter-group, .btn-submit { max-width: 100%; } 
+        }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="logo-pln-svg">
-        <svg xmlns="http://w3.org" viewBox="0 0 120 160" width="100%" height="100%">
-            <!-- Kotak Kuning Utama -->
-            <rect width="120" height="120" fill="#FFE600"/>
-            
-            <!-- Tiga Gelombang Biru Air (Kurva Vektor Halus) -->
-            <path d="M20 42 C30 36, 35 48, 45 42 C55 36, 60 48, 70 42 C80 36, 85 48, 95 42" fill="none" stroke="#00A0E9" stroke-width="4.5" stroke-linecap="round"/>
-            <path d="M20 58 C30 52, 35 64, 45 58 C55 52, 60 64, 70 58 C80 52, 85 64, 95 58" fill="none" stroke="#00A0E9" stroke-width="4.5" stroke-linecap="round"/>
-            <path d="M20 74 C30 68, 35 80, 45 74 C55 68, 60 80, 70 74 C80 68, 85 80, 95 74" fill="none" stroke="#00A0E9" stroke-width="4.5" stroke-linecap="round"/>
-            
-            <!-- Petir Merah Menembus Jantung Logo -->
-            <path d="M68 18 H84 L56 70 H74 L46 106 L52 74 H36 Z" fill="#E31E24"/>
-            
-            <!-- Tulisan Huruf PLN (Murni Vektor Tanpa Font Browser, Dijamin Kokoh & Tidak Berubah) -->
-            <path d="M24 135 H33 C37 135, 40 133.5, 40 130 C40 126.5, 37 125, 33 125 H29 V145 H24 V125 M29 130 H33 C34.5 130, 35 130.5, 35 131 C35 131.5, 34.5 132, 33 132 H29 Z 
-                     M47 125 H52 V141 H62 V145 H47 Z 
-                     M69 125 H74 L84 139 V125 H89 V145 H84 L74 131 V145 H69 Z" fill="#00A0E9"/>
-        </svg>
-    </div>
+    <!-- LINK EMBED ASLI SVG LOGO PLN - ANTI PECAH & RESMI -->
+    <img src="https://wikimedia.org" alt="Logo PLN Resmi" class="logo-pln">
+    
     <div class="header-section">
         <h2>GI - PENYULANG DISTRIBUSI</h2>
         <p class="subtitle">Entri Data GI-Penyulang UP3 Surabaya Utara</p>
     </div>
+    
     <div class="filter-section">
         <div class="filter-group">
             <label>PILIH GARDU INDUK (GI)</label>
             <select id="giSelect" class="select-custom"></select>
         </div>
         <div class="filter-group">
-            <label>PILIH TRAFO</label>
+            <label>PILIH TRAFO METER</label>
             <select id="trafoSelect" class="select-custom"></select>
         </div>
     </div>
+
     <form id="matrixForm">
         <div class="table-wrapper">
             <table>
@@ -144,11 +97,12 @@
                         <th style="width: 125px;">kVarh</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody"></tbody>
+                <tbody id="tableBody">
+                </tbody>
             </table>
         </div>
         <div class="btn-container">
-            <button type="submit" id="submitBtn" class="btn-submit">Simpan Data</button>
+            <button type="submit" id="submitBtn" class="btn-submit">Simpan Data GI & Trafo</button>
         </div>
     </form>
 </div>
@@ -172,9 +126,7 @@
             "I": ["Meter Utama", "Meter Pembanding", "PS", "Pucang Sewu", "Kali Bokor", "Barata"],
             "II": ["Meter Utama", "Meter Pembanding", "PS", "Bilka", "Ratna", "Ciliwung", "Sulawesi", "Pucang Adi", "Lumumba", "Diponegoro", "Ciwo", "Exp Ngagel 2", "Exp Ngagel 3"]
         },
-        "PERAK": {
-            "I": ["Meter Utama", "Meter Pembanding", "PS", "Dermaga Ex Pel I", "Nasir Ex Pel II", "Nilam I", "Nilam II", "Jamrud", "Mutiara"]
-        },
+        "PERAK": { "I": ["Meter Utama", "Meter Pembanding", "PS", "Dermaga Ex Pel I", "Nasir Ex Pel II", "Nilam I", "Nilam II", "Jamrud", "Mutiara"] },
         "SAWAHAN": {
             "I": ["Meter Utama", "Meter Pembanding", "PS", "Simorejo", "Ked. Doro", "Petemon", "Widodaren", "Mrgyoso", "Tmbk. Pring", "Simo Kwagean", "Simo Gunung", "DPRD Jatim"],
             "III": ["Meter Utama", "Meter Pembanding", "PS", "Margorukun", "Tidar", "Ketandan", "Semarang", "Demak", "Asem Rowo", "Arjuno", "Kalibutuh", "Emb. Malang", "Bukit Bar."]
@@ -185,16 +137,16 @@
         },
         "TANDES": {
             "I": ["Meter Utama", "Meter Pembanding", "PS", "Tnj Sari", "Mjo", "Margomulyo", "Gadukan", "Greges", "Dumar", "Buntaran", "BMI", "Menara", "Mashindo"],
-            "II": ["Meter Utama", "Meter Pembanding", "PS", "Darmo Permai", "Banyu Urip", "Sukomanunggal", "Gedang Asin", "Bibis Tama", "Simo Jawar", "GDS 4", "GDS 5", "GDS 6"],
-            "III": ["Meter Utama", "Meter Pembanding", "PS", "Asian Profile 1", "Asian Profile 2", "Bhirawa I", "Bhirawa II", "GDS 1", "GDS 2", "Indowire", "Lamong 3", "Lamong 4"],
-            "IV": ["Meter Utama", "Meter Pembanding", "PS", "Meshindo Ex GDS"]
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Darmo Permai", "Banyu Urip", "Sukomanunggal", "Gedang Asin", "Bibis Tama", "Simo Jawar", "Gds 4", "Gds 5", "Gds 6"],
+            "III": ["Meter Utama", "Meter Pembanding", "PS", "Asian Profile 1", "Asian Profile 2", "Bhirawa I", "Bhirawa II", "Gds 1", "Gds 2", "Indowire", "Lamong 3", "Lamong 4"],
+            "IV": ["Meter Utama", "Meter Pembanding", "PS", "Meshindo Ex Gds"]
         },
         "UNDAAN": {
             "I": ["Meter Utama", "Meter Pembanding", "PS", "Kamboja", "Ach Jaiz", "Jagalan", "Pengampon", "Simp Dukuh", "Praban", "Genteng Kali", "Embong Purn", "Gemblongan", "Senopati", "Soka", "Grand City"],
             "II": ["Meter Utama", "Meter Pembanding", "PS", "Pegirian", "Kapasari", "Kertopaten", "Pragoto", "Mustopo", "Baliwerti", "WTC", "Tmn Apsari", "Balai Kota", "Stadion"]
         },
         "UJUNG": {
-            "I": ["Meter Utama", "Meter Pembanding", "PS", "PAL I", "PAL II", "PAL III", "Pnt Mulya", "Lantamal I Ex Spare", "Lantamal III"],
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Pal I", "Pal II", "Pal III", "Pnt Mulya", "Lantamal I Ex Spare", "Lantamal III"],
             "II": ["Meter Utama", "Meter Pembanding", "PS", "Tb. Wedi", "Wonosari", "Rowo Br", "Hangtuah", "Lantamal II", "Blk Banteng"]
         },
         "SAMBIKEREP": {
@@ -202,23 +154,16 @@
             "II": ["Meter Utama", "Meter Pembanding", "PS", "Victoria", "Kendung", "Bringin", "Alas Malang", "Moroseneng", "North West"]
         },
         "PT INDOFOOD": { "I": ["PT Indofood"] },
-        "KALISARI": {
-            "I": ["Meter Utama", "Meter Pembanding", "PS", "Ir Soekarno", "Arkadia", "Nakamura", "Pantai Timur", "Riverside", "Gading Pantai", "Kenpark", "S Galaxy 1", "Elgrand", "S Galaxy 2", "Persia", "Pakuwon City 1", "Pakuwon City 2"]
-        },
-        "KEDINDING": {
-            "I": ["Meter Utama", "Meter Pembanding", "PS", "M Noer", "Al Fitrah", "Nambangan", "Grand Sagara", "Kalilom", "East Coast", "Surabaya Park"]
-        },
+        "KALISARI": { "I": ["Meter Utama", "Meter Pembanding", "PS", "Ir Soekarno", "Arkadia", "Nakamura", "Pantai Timur", "Riverside", "Gading Pantai", "Kenpark", "S Galaxy 1", "Elgrand", "S Galaxy 2", "Persia", "Pakuwon City 1", "Pakuwon City 2"] },
+        "KEDINDING": { "I": ["Meter Utama", "Meter Pembanding", "PS", "M Noer", "Al Fitrah", "Nambangan", "Grand Sagara", "Kalilom", "East Coast", "Surabaya Park"] },
         "SUKOLILO": {
             "III": ["Meter Utama", "Meter Pembanding", "PS", "Semolo", "Kalidami", "Gebang Lor", "Srikana", "Lotus", "PAM", "Bratang Kalisumo", "Bengkel", "Megah Raya", "Kali Rungkut", "Atlas", "Tropical"],
             "IV": ["Meter Utama", "Meter Pembanding", "PS", "Bima 1", "Bima 2", "Klampis", "Kertajaya"]
         },
-        "GEMBONG": {
-            "I": ["Meter Utama", "Meter Pembanding", "PS", "Simokerto", "Kapasan", "Mega Grosir", "Alimar", "Arabica", "Soewandi"]
-        },
-        "WONOKROMO": {
-            "III": ["Meter Utama", "Meter Pembanding", "PS", "Prapen", "Univ Hang Tuah", "Exp Wonokromo 1 (Marga Satwa)", "Exp Wonokromo 2 (Ciwo 2)", "Exp Wonokromo 3 (Indragiri)", "PAM 4", "Joyoboyo", "Kejaksaan", "Adityawarman", "Royal 1", "Ketintang", "Petrokimia", "Mangga Dua", "PAM 3"]
-        }
+        "GEMBONG": { "I": ["Meter Utama", "Meter Pembanding", "PS", "Simokerto", "Kapasan", "Mega Grosir", "Alimar", "Arabica", "Soewandi"] },
+        "WONOKROMO": { "III": ["Meter Utama", "Meter Pembanding", "PS", "Prapen", "Univ Hang Tuah", "Exp Wonokromo 1 (Marga Satwa)", "Exp Wonokromo 2 (Ciwo 2)", "Exp Wonokromo 3 (Indragiri)", "PAM 4", "Joyoboyo", "Kejaksaan", "Adityawarman", "Royal 1", "Ketintang", "Petrokimia", "Mangga Dua", "PAM 3"] }
     };
+
     const giSelect = document.getElementById('giSelect');
     const trafoSelect = document.getElementById('trafoSelect');
     const tbody = document.getElementById('tableBody');
@@ -247,8 +192,7 @@
         const currentTrafo = trafoSelect.value;
         if (!currentGI || !currentTrafo) return;
 
-        const listPenyulang = dbSistem[currentGI][currentTrafo];
-        listPenyulang.forEach(pName => {
+        dbSistem[currentGI][currentTrafo].forEach(pName => {
             const tr = document.createElement('tr');
             tr.setAttribute('data-pname', pName);
             tr.innerHTML = `
@@ -280,9 +224,8 @@
         const giVal = giSelect.value;
         const trafoVal = `TRAFO ${trafoSelect.value}`;
         const rowsData = [];
-        const allRows = tbody.querySelectorAll('tr');
         
-        allRows.forEach(tr => {
+        tbody.querySelectorAll('tr').forEach(tr => {
             rowsData.push({
                 gi: giVal,
                 trafo: trafoVal,
