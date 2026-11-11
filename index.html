@@ -206,7 +206,7 @@
     const form = document.getElementById('matrixForm');
     const submitBtn = document.getElementById('submitBtn');
 
-        form.addEventListener('submit', e => {
+            form.addEventListener('submit', e => {
         e.preventDefault();
 
         const giVal = giSelect.value;
@@ -223,31 +223,36 @@
             const total = tr.querySelector('.total').value;
             const kvarh = tr.querySelector('.kvarh').value;
 
-            // ATURAN BARU: Cek apakah baris ini benar-benar kosong semua
-            const isBarisKosong = (lwbp1.trim() === "" || parseFloat(lwbp1) === 0) &&
-                                  (lwbp2.trim() === "" || parseFloat(lwbp2) === 0) &&
-                                  (wbp.trim() === "" || parseFloat(wbp) === 0) &&
-                                  (total.trim() === "" || parseFloat(total) === 0) &&
-                                  (kvarh.trim() === "" || parseFloat(kvarh) === 0);
+            // 1. Cek apakah baris ini benar-benar kosong semua (diabaikan/tidak dikirim)
+            const isBarisKosong = lwbp1.trim() === "" &&
+                                  lwbp2.trim() === "" &&
+                                  wbp.trim() === "" &&
+                                  total.trim() === "" &&
+                                  kvarh.trim() === "";
 
-            // Jika baris ini kosong total, lewati (jangan dimasukkan ke database)
             if (isBarisKosong) {
                 return; 
             }
 
-            // Fungsi validasi jika kolom diisi karakter/huruf yang salah
-            const cekDanFormatAngka = (val) => {
-                if (val.trim() === "") return "0"; 
-                if (!isNaN(val) && !isNaN(parseFloat(val))) return val;
-                return false; 
+            // 2. Fungsi Validasi Angka Ketat menggunakan Regex (Hanya ijinkan angka murni / desimal titik)
+            const validasiAngkaKetat = (val) => {
+                if (val.trim() === "") return "0"; // Jika kolom sengaja dikosongkan pada baris yang aktif, otomatis jadi 0
+                
+                // Ekspresi reguler untuk memastikan karakter murni berupa angka bulat atau desimal positif
+                const regexAngka = /^\d+(\.\d+)?$/;
+                if (regexAngka.test(val.trim())) {
+                    return val.trim();
+                }
+                return false; // Mengembalikan false jika terdeteksi huruf, simbol, minus, atau spasi aneh
             };
 
-            const fLwbp1 = cekDanFormatAngka(lwbp1);
-            const fLwbp2 = cekDanFormatAngka(lwbp2);
-            const fWbp = cekDanFormatAngka(wbp);
-            const fTotal = cekDanFormatAngka(total);
-            const fKvarh = cekDanFormatAngka(kvarh);
+            const fLwbp1 = validasiAngkaKetat(lwbp1);
+            const fLwbp2 = validasiAngkaKetat(lwbp2);
+            const fWbp = validasiAngkaKetat(wbp);
+            const fTotal = validasiAngkaKetat(total);
+            const fKvarh = validasiAngkaKetat(kvarh);
 
+            // Jika ada salah satu kolom mengembalikan false, kunci status validasi
             if (fLwbp1 === false || fLwbp2 === false || fWbp === false || fTotal === false || fKvarh === false) {
                 isValid = false;
                 namaPenyulangEror = pName;
@@ -265,17 +270,19 @@
             });
         });
 
-        // JIKA TIDAK ADA DATA SAMA SEKALI YANG DIISI
+        // 3. Batalkan kiriman jika tidak ada baris yang diisi sama sekali
         if (rowsData.length === 0) {
             alert("Pemberitahuan: Tidak ada data yang dikirim karena semua kolom input kosong.");
             return;
         }
 
+        // 4. JIKA VALIDASI GAGAL: Munculkan notifikasi salah dan batalkan pengiriman data
         if (!isValid) {
-            alert(`Pemberitahuan: Format input salah! Pastikan kolom yang diisi pada penyulang "${namaPenyulangEror}" hanya berisi angka murni.`);
-            return;
+            alert(`Pemberitahuan: Format input salah! Pastikan kolom yang Anda isi pada penyulang "${namaPenyulangEror}" hanya berisi angka murni/desimal.`);
+            return; 
         }
 
+        // 5. JIKA VALIDASI BERHASIL: Kirim data murni ke Google Sheets
         submitBtn.disabled = true;
         submitBtn.innerHTML = 'Menyimpan...';
 
