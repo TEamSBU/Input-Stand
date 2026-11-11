@@ -175,7 +175,7 @@
         renderTable();
     }
 
-    function renderTable() {
+        function renderTable() {
         tbody.innerHTML = "";
         const currentGI = giSelect.value;
         const currentTrafo = trafoSelect.value;
@@ -184,13 +184,14 @@
         dbSistem[currentGI][currentTrafo].forEach(pName => {
             const tr = document.createElement('tr');
             tr.setAttribute('data-pname', pName);
+            // ATURAN BARU: Atribut "required" telah dihapus agar kolom boleh dikosongkan
             tr.innerHTML = `
                 <td><b>${pName}</b></td>
-                <td><input type="number" step="any" class="input-num lwbp1" required min="0" placeholder="0"></td>
-                <td><input type="number" step="any" class="input-num lwbp2" required min="0" placeholder="0"></td>
-                <td><input type="number" step="any" class="input-num wbp" required min="0" placeholder="0"></td>
-                <td><input type="number" step="any" class="input-num total" required min="0" placeholder="0"></td>
-                <td><input type="number" step="any" class="input-num kvarh" required min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num lwbp1" min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num lwbp2" min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num wbp" min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num total" min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num kvarh" min="0" placeholder="0"></td>
             `;
             tbody.appendChild(tr);
         });
@@ -207,25 +208,60 @@
 
     form.addEventListener('submit', e => {
         e.preventDefault();
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Menyimpan...';
 
         const giVal = giSelect.value;
         const trafoVal = `TRAFO ${trafoSelect.value}`;
         const rowsData = [];
-        
+        let isValid = true;
+        let namaPenyulangEror = "";
+
         tbody.querySelectorAll('tr').forEach(tr => {
+            const pName = tr.getAttribute('data-pname');
+            const lwbp1 = tr.querySelector('.lwbp1').value;
+            const lwbp2 = tr.querySelector('.lwbp2').value;
+            const wbp = tr.querySelector('.wbp').value;
+            const total = tr.querySelector('.total').value;
+            const kvarh = tr.querySelector('.kvarh').value;
+
+            // ATURAN BARU: Jika kolom kosong, otomatis diisi "0" agar tidak eror di Google Sheets.
+            // Jika diisi, wajib berupa angka valid.
+            const cekDanFormatAngka = (val) => {
+                if (val.trim() === "") return "0"; 
+                if (!isNaN(val) && !isNaN(parseFloat(val))) return val;
+                return false; 
+            };
+
+            const fLwbp1 = cekDanFormatAngka(lwbp1);
+            const fLwbp2 = cekDanFormatAngka(lwbp2);
+            const fWbp = cekDanFormatAngka(wbp);
+            const fTotal = cekDanFormatAngka(total);
+            const fKvarh = cekDanFormatAngka(kvarh);
+
+            // Jika mengembalikan nilai false, berarti user menginput karakter/huruf yang salah
+            if (fLwbp1 === false || fLwbp2 === false || fWbp === false || fTotal === false || fKvarh === false) {
+                isValid = false;
+                namaPenyulangEror = pName;
+            }
+
             rowsData.push({
                 gi: giVal,
                 trafo: trafoVal,
-                penyulang: tr.getAttribute('data-pname'),
-                lwbp1: tr.querySelector('.lwbp1').value,
-                lwbp2: tr.querySelector('.lwbp2').value,
-                wbp: tr.querySelector('.wbp').value,
-                total: tr.querySelector('.total').value,
-                kvarh: tr.querySelector('.kvarh').value
+                penyulang: pName,
+                lwbp1: fLwbp1,
+                lwbp2: fLwbp2,
+                wbp: fWbp,
+                total: fTotal,
+                kvarh: fKvarh
             });
         });
+
+        if (!isValid) {
+            alert(`Pemberitahuan: Format input salah! Pastikan kolom yang diisi pada penyulang "${namaPenyulangEror}" hanya berisi angka murni.`);
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Menyimpan...';
 
         fetch(scriptURL, { method: 'POST', body: JSON.stringify({ rows: rowsData }) })
         .then(response => {
