@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Status Entry - UP3 Surabaya Utara</title>
+    <style>
+        :root {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); padding: 25px 15px; display: flex; justify-content: center; }
+        .container { background-color: var(--bg-card); padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); width: 100%; max-width: 1000px; position: relative; }
+        
+        .logo-pln { position: absolute; top: 20px; left: 25px; height: 60px; width: auto; object-fit: contain; }
+        .header-section { text-align: center; margin-bottom: 35px; border-bottom: 1px solid var(--border); padding-bottom: 20px; padding-top: 10px; }
+        h2 { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+        p.subtitle { color: var(--text-muted); font-size: 14px; }
+
+        /* Summary Progress Bar Card */
+        .progress-card { background: rgba(15, 23, 42, 0.4); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        .progress-text { font-size: 16px; font-weight: 600; margin-bottom: 10px; color: #f1f5f9; }
+        .progress-bar-container { background-color: #334155; border-radius: 20px; height: 20px; width: 100%; overflow: hidden; }
+        .progress-bar-fill { background: linear-gradient(90deg, #10b981, #34d399); height: 100%; width: 0%; transition: width 0.5s ease-in-out; }
+
+        /* Grid Grid Monitoring GI */
+        .gi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        .gi-card { border: 1px solid var(--border); padding: 18px 15px; border-radius: 10px; background-color: rgba(15, 23, 42, 0.2); display: flex; flex-direction: column; gap: 8px; transition: transform 0.2s; }
+        .gi-card:hover { transform: translateY(-2px); }
+        .gi-name { font-size: 14px; font-weight: 700; color: #f1f5f9; }
+        
+        /* Status Badge */
+        .status-badge { padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 0.05em; align-self: flex-start; }
+        .status-done { background-color: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
+        .status-wait { background-color: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        .loading-text { text-align: center; font-size: 16px; color: var(--text-muted); padding: 40px 0; }
+        
+        @media (max-width: 640px) {
+            .container { padding-top: 100px; }
+            .logo-pln { left: 50%; transform: translateX(-50%); top: 20px; }
+            .gi-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://wikimedia.org" alt="Logo PLN Resmi" class="logo-pln">
+    
+    <div class="header-section">
+        <h2>DASHBOARD MONITORING STATUS ENTRY</h2>
+        <p class="subtitle">Pemantauan Real-Time Penginputan Stand Parameter Distribusi Hari Ini</p>
+    </div>
+
+    <!-- Progress Card -->
+    <div id="summaryArea" style="display: none;">
+        <div class="progress-card">
+            <div class="progress-text" id="progressLabel">Memproses Data Progres...</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grid Tempat Tampilan Status GI -->
+    <div id="loading" class="loading-text">Menghubungkan ke server Google Sheets...</div>
+    <div class="gi-grid" id="giGrid"></div>
+</div>
+
+<script>
+    // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzd-7rTeTsBSFDBqFTKeAvS-lFN1Ckx7KM3ug3oPe58RerpXb8NlFwDpNW6i_3LTDusIQ/exec';
+    
+    const gridContainer = document.getElementById('giGrid');
+    const loadingText = document.getElementById('loading');
+    const summaryArea = document.getElementById('summaryArea');
+    const progressBar = document.getElementById('progressBar');
+    const progressLabel = document.getElementById('progressLabel');
+
+    // Fetch data status dari fungsi doGet Apps Script
+    fetch(scriptURL)
+        .then(response => response.json())
+        .then(data => {
+            loadingText.style.display = 'none';
+            summaryArea.style.display = 'block';
+
+            let totalGI = 0;
+            let suksesGI = 0;
+
+            // Bersihkan kontainer dan bangun kotak status GI
+            gridContainer.innerHTML = "";
+            
+            Object.keys(data).forEach(giName => {
+                totalGI++;
+                const isDone = data[giName];
+                if (isDone) suksesGI++;
+
+                const card = document.createElement('div');
+                card.className = 'gi-card';
+                
+                card.innerHTML = `
+                    <div class="gi-name">${giName}</div>
+                    <div class="status-badge ${isDone ? 'status-done' : 'status-wait'}">
+                        ${isDone ? '● Sudah Input' : '○ Belum Input'}
+                    </div>
+                `;
+                gridContainer.appendChild(card);
+            });
+
+            // Hitung dan jalankan animasi progress bar
+            const persentase = Math.round((suksesGI / totalGI) * 100);
+            progressBar.style.width = persentase + '%';
+            progressLabel.innerHTML = `Progres Penyelesaian Hari Ini: <b>${suksesGI}</b> dari <b>${totalGI}</b> GI Terisi (${persentase}%)`;
+        })
+        .catch(error => {
+            loadingText.innerHTML = "Gagal memuat status data harian. Periksa kembali URL deployment skrip Anda.";
+            console.error('Error!', error.message);
+        });
+</script>
+
+</body>
+</html>
