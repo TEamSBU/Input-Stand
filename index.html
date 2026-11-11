@@ -206,7 +206,7 @@
     const form = document.getElementById('matrixForm');
     const submitBtn = document.getElementById('submitBtn');
 
-            form.addEventListener('submit', e => {
+        form.addEventListener('submit', e => {
         e.preventDefault();
 
         const giVal = giSelect.value;
@@ -234,16 +234,15 @@
                 return; 
             }
 
-            // 2. Fungsi Validasi Angka Ketat menggunakan Regex (Hanya ijinkan angka murni / desimal titik)
+            // 2. Fungsi Validasi Angka Ketat (Koreksi Baru: Jika kosong, biarkan kosong ""/jangan diubah jadi "0")
             const validasiAngkaKetat = (val) => {
-                if (val.trim() === "") return "0"; // Jika kolom sengaja dikosongkan pada baris yang aktif, otomatis jadi 0
+                if (val.trim() === "") return ""; // Biarkan string kosong agar tidak menimpa data lama di Sheets
                 
-                // Ekspresi reguler untuk memastikan karakter murni berupa angka bulat atau desimal positif
                 const regexAngka = /^\d+(\.\d+)?$/;
                 if (regexAngka.test(val.trim())) {
                     return val.trim();
                 }
-                return false; // Mengembalikan false jika terdeteksi huruf, simbol, minus, atau spasi aneh
+                return false; 
             };
 
             const fLwbp1 = validasiAngkaKetat(lwbp1);
@@ -252,7 +251,6 @@
             const fTotal = validasiAngkaKetat(total);
             const fKvarh = validasiAngkaKetat(kvarh);
 
-            // Jika ada salah satu kolom mengembalikan false, kunci status validasi
             if (fLwbp1 === false || fLwbp2 === false || fWbp === false || fTotal === false || fKvarh === false) {
                 isValid = false;
                 namaPenyulangEror = pName;
@@ -270,25 +268,22 @@
             });
         });
 
-        // 3. Batalkan kiriman jika tidak ada baris yang diisi sama sekali
         if (rowsData.length === 0) {
             alert("Pemberitahuan: Tidak ada data yang dikirim karena semua kolom input kosong.");
             return;
         }
 
-        // 4. JIKA VALIDASI GAGAL: Munculkan notifikasi salah dan batalkan pengiriman data
         if (!isValid) {
             alert(`Pemberitahuan: Format input salah! Pastikan kolom yang Anda isi pada penyulang "${namaPenyulangEror}" hanya berisi angka murni/desimal.`);
             return; 
         }
 
-        // 5. JIKA VALIDASI BERHASIL: Kirim data murni ke Google Sheets
         submitBtn.disabled = true;
         submitBtn.innerHTML = 'Menyimpan...';
 
         fetch(scriptURL, { method: 'POST', body: JSON.stringify({ rows: rowsData }) })
         .then(response => {
-            alert(`Sukses! Data ${giVal} ${trafoVal} yang terisi berhasil disimpan.`);
+            alert(`Sukses! Koreksi data ${giVal} ${trafoVal} berhasil diperbarui.`);
             form.reset();
             submitBtn.disabled = false;
             submitBtn.innerHTML = 'Simpan Data GI & Trafo';
