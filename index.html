@@ -326,7 +326,7 @@
         });
     });
 
-    // TAB 2: MONITORING ENGINE (17 KOTAK GI + 3 STATUS DINAMIS + DETAIL PENYULANG)
+    // TAB 2: MONITORING ENGINE (DENGAN NOTIFIKASI PARAMETER YANG KURANG)
     function muatHalamanMonitoring() {
         loadingMonitor.style.display = 'block';
         gridContainer.innerHTML = "";
@@ -337,39 +337,54 @@
             .then(response => response.json())
             .then(resData => {
                 loadingMonitor.style.display = 'none';
-                const sudahInputList = resData.sudahInput || [];
+                const statusMap = resData.statusDetail || {};
                 
                 let totalGI = 0;
                 let lengkapGI = 0;
 
-                // Loop 17 Gardu Induk dari dbSistem
                 Object.keys(dbSistem).forEach(giName => {
                     totalGI++;
                     let totalPenyulangGI = 0;
                     let suksesPenyulangGI = 0;
+                    let adaInputSebagian = false;
                     let htmlDetail = "";
 
-                    // Hitung total penyulang & penyulang yang sudah diisi pada GI ini
                     Object.keys(dbSistem[giName]).forEach(tId => {
                         dbSistem[giName][tId].forEach(pName => {
                             totalPenyulangGI++;
                             const keyCheck = `${giName}|TRAFO ${tId}|${pName}`;
-                            const isDone = sudahInputList.includes(keyCheck);
+                            const info = statusMap[keyCheck];
                             
-                            if (isDone) suksesPenyulangGI++;
+                            let isDone = false;
+                            let statusLabel = "🔴 Belum";
+                            let statusColor = "#ef4444";
+
+                            if (info) {
+                                adaInputSebagian = true;
+                                if (info.lengkap) {
+                                    isDone = true;
+                                    suksesPenyulangGI++;
+                                    statusLabel = "🟢 Ok";
+                                    statusColor = "#10b981";
+                                } else {
+                                    // Menampilkan parameter spesifik yang belum diisi/bernilai 0
+                                    statusLabel = `🟡 Kurang: ${info.kurang.join(", ")}`;
+                                    statusColor = "#fbbf24";
+                                }
+                            }
 
                             htmlDetail += `
-                                <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid #334155; font-size:12px;">
-                                    <span style="color:#cbd5e1;">T.${tId} - ${pName}</span>
-                                    <span style="color:${isDone ? '#10b981' : '#ef4444'}; font-weight:bold;">
-                                        ${isDone ? '🟢 OK' : '🔴 BELUM'}
+                                <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--border); font-size:12px; gap:8px;">
+                                    <span style="color:var(--text-main);">T.${tId} - ${pName}</span>
+                                    <span style="color:${statusColor}; font-weight:bold; text-align:right; font-size:11px;">
+                                        ${statusLabel}
                                     </span>
                                 </div>
                             `;
                         });
                     });
 
-                    // Tentukan 3 Kondisi Status Cerdas
+                    // Tentukan 3 Kondisi Badge Utama GI
                     let badgeClass = 'status-wait';
                     let badgeText = '🔴 Belum Input';
 
@@ -377,9 +392,9 @@
                         badgeClass = 'status-done';
                         badgeText = '🟢 Lengkap';
                         lengkapGI++;
-                    } else if (suksesPenyulangGI > 0) {
+                    } else if (suksesPenyulangGI > 0 || adaInputSebagian) {
                         badgeClass = 'status-partial';
-                        badgeText = `🟡 Dicicil (${suksesPenyulangGI}/${totalPenyulangGI})`;
+                        badgeText = `🟡 Dicicil (${suksesPenyulangGI}/${totalPenyulangGI} OK)`;
                     }
 
                     const card = document.createElement('div');
@@ -391,12 +406,11 @@
                             <span style="font-size:11px; color:var(--text-muted);">▼ Rincian</span>
                         </div>
                         <div class="status-badge ${badgeClass}" style="margin-top:6px;">${badgeText}</div>
-                        <div class="detail-box" style="display:none; margin-top:12px; padding-top:8px; border-top:1px dashed var(--border); max-height:180px; overflow-y:auto;">
+                        <div class="detail-box" style="display:none; margin-top:12px; padding-top:8px; border-top:1px dashed var(--border); max-height:220px; overflow-y:auto;">
                             ${htmlDetail}
                         </div>
                     `;
 
-                    // Fitur klik kotak GI untuk melihat penyulang mana yang masih merah/belum
                     card.addEventListener('click', (e) => {
                         if (e.target.closest('.detail-box')) return;
                         const box = card.querySelector('.detail-box');
@@ -406,7 +420,6 @@
                     gridContainer.appendChild(card);
                 });
 
-                // Update Progress Bar berdasarkan GI yang sudah 100% Lengkap
                 const persentase = totalGI > 0 ? Math.round((lengkapGI / totalGI) * 100) : 0;
                 progressBar.style.width = persentase + '%';
                 progressLabel.innerHTML = `Progres Penyelesaian Hari Ini: <b>${lengkapGI}</b> dari <b>${totalGI}</b> GI Lengkap (${persentase}%)`;
