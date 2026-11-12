@@ -182,12 +182,20 @@
     </div>
 
     <!-- TAB 2: MONITORING DASHBOARD -->
+        <!-- TAB 2: MONITORING DASHBOARD -->
     <div id="monitorTab" class="tab-content">
+        <div class="filter-section" style="margin-bottom: 20px;">
+            <div class="filter-group" style="max-width: 280px;">
+                <label for="monitorMonth">FILTER BULAN ENTRY</label>
+                <input type="month" id="monitorMonth" class="select-custom">
+            </div>
+        </div>
+
         <div class="progress-card">
             <div class="progress-text" id="progressLabel">Menghubungkan ke database...</div>
             <div class="progress-bar-container"><div class="progress-bar-fill" id="progressBar"></div></div>
         </div>
-        <div id="loadingMonitor" class="loading-text">Memproses status sinkronisasi harian...</div>
+        <div id="loadingMonitor" class="loading-text">Memproses status sinkronisasi bulanan...</div>
         <div class="gi-grid" id="giGrid"></div>
     </div>
 </div>
@@ -380,14 +388,25 @@
         });
     });
 
-    // TAB 2: MONITORING ENGINE (DENGAN NOTIFIKASI PARAMETER YANG KURANG)
+    // Set bawaan filter bulan ke bulan saat ini (YYYY-MM)
+    const monitorMonthInput = document.getElementById('monitorMonth');
+    const now = new Date();
+    const currentMonthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    monitorMonthInput.value = currentMonthStr;
+
+    // Muat ulang monitoring otomatis saat bulan diganti
+    monitorMonthInput.addEventListener('change', muatHalamanMonitoring);
+
+    // TAB 2: MONITORING ENGINE BERBASIS BULAN
     function muatHalamanMonitoring() {
+        const selectedMonth = monitorMonthInput.value || currentMonthStr;
         loadingMonitor.style.display = 'block';
         gridContainer.innerHTML = "";
-        progressLabel.innerHTML = "Memproses penyaringan status harian...";
+        progressLabel.innerHTML = `Memproses status bulan ${selectedMonth}...`;
         progressBar.style.width = '0%';
 
-        fetch(scriptURL)
+        // Kirim parameter ?month=YYYY-MM ke Google Apps Script
+        fetch(`${scriptURL}?month=${encodeURIComponent(selectedMonth)}`)
             .then(response => response.json())
             .then(resData => {
                 loadingMonitor.style.display = 'none';
@@ -409,36 +428,32 @@
                             const keyCheck = `${giName}|TRAFO ${tId}|${pName}`;
                             const info = statusMap[keyCheck];
                             
-                            let isDone = false;
                             let statusLabel = "🔴 Belum";
-                            let statusColor = "#ef4444";
+                            let statusColor = "#dc2626";
 
                             if (info) {
                                 adaInputSebagian = true;
                                 if (info.lengkap) {
-                                    isDone = true;
                                     suksesPenyulangGI++;
                                     statusLabel = "🟢 Ok";
-                                    statusColor = "#10b981";
+                                    statusColor = "#15803d";
                                 } else {
-                                    // Menampilkan parameter spesifik yang belum diisi/bernilai 0
                                     statusLabel = `🟡 Kurang: ${info.kurang.join(", ")}`;
-                                    statusColor = "#fbbf24";
+                                    statusColor = "#b45309";
                                 }
                             }
 
                             htmlDetail += `
                                 <div style="display:flex; flex-direction:column; gap:3px; padding:8px 6px 8px 0; border-bottom:1px solid var(--border); font-size:12px;">
-                                     <span style="color:var(--text-main); font-weight:600;">T.${tId} - ${pName}</span>
-                                     <span style="color:${statusColor}; font-weight:bold; font-size:11px;">
-                                         ${statusLabel}
-                                     </span>
+                                    <span style="color:#0f172a; font-weight:600;">T.${tId} - ${pName}</span>
+                                    <span style="color:${statusColor}; font-weight:bold; font-size:11px;">
+                                        ${statusLabel}
+                                    </span>
                                 </div>
                             `;
                         });
                     });
 
-                    // Tentukan 3 Kondisi Badge Utama GI
                     let badgeClass = 'status-wait';
                     let badgeText = '🔴 Belum Input';
 
@@ -476,10 +491,10 @@
 
                 const persentase = totalGI > 0 ? Math.round((lengkapGI / totalGI) * 100) : 0;
                 progressBar.style.width = persentase + '%';
-                progressLabel.innerHTML = `Progres Penyelesaian Hari Ini: <b>${lengkapGI}</b> dari <b>${totalGI}</b> GI Lengkap (${persentase}%)`;
+                progressLabel.innerHTML = `Progres Bulan <b>${selectedMonth}</b>: <b>${lengkapGI}</b> dari <b>${totalGI}</b> GI Lengkap (${persentase}%)`;
             })
             .catch(error => {
-                loadingMonitor.innerHTML = "Gagal memuat database status harian.";
+                loadingMonitor.innerHTML = "Gagal memuat database status bulanan.";
                 console.error('Error!', error.message);
             });
     }
