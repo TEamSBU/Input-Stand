@@ -180,6 +180,26 @@
         }
         .gi-name { font-size: 14px; font-weight: 700; color: #0f172a !important; }
         .detail-box span { color: #1e293b; }
+        /* Efek highlight saat kursor menyorot item penyulang di dalam rincian GI */
+        .detail-box > div,
+        .detail-box li {
+            padding: 8px 6px;
+            border-radius: 6px;
+            transition: background-color 0.2s ease, transform 0.15s ease;
+            cursor: pointer;
+        }
+        .detail-box > div:hover,
+        .detail-box li:hover {
+            background-color: #ffffff; /* Latar belakang putih terang agar kontras di atas warna hover kartu */
+            transform: translateX(3px); /* Efek geser halus ke kanan saat disorot */
+            box-shadow: 0 2px 5px rgba(0, 139, 158, 0.15);
+        }
+        /* Mempertegas teks nama penyulang saat disorot */
+        .detail-box > div:hover span:first-child,
+        .detail-box li:hover span:first-child {
+            color: #008b9e;
+            font-weight: 700;
+        }
         .status-badge { padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 0.05em; align-self: flex-start; }
         .status-done { background-color: #dcfce7; color: #15803d; border: 1px solid #86efac; }
         .status-partial { background-color: #fef3c7; color: #b45309; border: 1px solid #fcd34d; }
