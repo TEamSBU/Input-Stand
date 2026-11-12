@@ -428,6 +428,33 @@
             muatHalamanMonitoring(); // Auto fetch data saat tab dashboard diklik
         }
     }
+    
+    // FUNGSI PINTASAN: KLIK ITEM RINCIAN LANGSUNG KE FORM INPUT SESUAI GI & TRAFO
+    function bukaFormInput(event, giName, trafoId, penyulangName) {
+        event.stopPropagation(); // Mencegah klik menutup/membuka rincian kartu GI
+
+        // 1. Pindah ke tab Input Stand Meter
+        switchTab('inputTab');
+
+        // 2. Pilih GI dan perbarui daftar Trafo-nya
+        giSelect.value = giName;
+        updateTrafoOptions();
+
+        // 3. Pilih Trafo yang sesuai dan render tabel penyulangnya
+        trafoSelect.value = trafoId;
+        renderTable();
+
+        // 4. Sorot & fokuskan kursor otomatis ke baris penyulang yang diklik
+        setTimeout(() => {
+            const targetRow = tbody.querySelector(`tr[data-pname="${penyulangName}"]`);
+            if (targetRow) {
+                targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetRow.style.backgroundColor = 'rgba(0, 139, 158, 0.2)';
+                const firstInput = targetRow.querySelector('input');
+                if (firstInput) firstInput.focus();
+            }
+        }, 100);
+    }
 
     // TAB 1: LOGIK FORM INPUT GENERATOR
     Object.keys(dbSistem).forEach(giName => {
@@ -592,7 +619,9 @@
                             }
 
                             htmlDetail += `
-                                <div style="display:flex; flex-direction:column; gap:3px; padding:8px 6px 8px 0; border-bottom:1px solid var(--border); font-size:12px;">
+                                <div onclick="bukaFormInput(event, '${giName}', '${tId}', '${pName}')" 
+                                     title="Klik untuk input data ${giName} - Trafo ${tId} (${pName})"
+                                     style="display:flex; flex-direction:column; gap:3px; padding:8px; border-bottom:1px solid var(--border); font-size:12px;">
                                     <span style="color:#0f172a; font-weight:600;">T.${tId} - ${pName}</span>
                                     <span style="color:${statusColor}; font-weight:bold; font-size:11px;">
                                         ${statusLabel}
