@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Energi Jaringan - UP3 Surabaya Utara</title>
+    <title>Portal Entry Stand - UP3 Surabaya Utara</title>
     <style>
         :root {
             --primary: #2563eb;
@@ -86,25 +86,25 @@
     <img src="https://wikimedia.org" alt="Logo PLN Resmi" class="logo-pln">
     
     <div class="header-section">
-        <h2>PORTAL OPERASIONAL ENERGI DISTRIBUSI</h2>
-        <p class="subtitle">Sistem Integrasi Penyaluran & Monitoring Jaringan UP3 Surabaya Utara</p>
+        <h2>PORTAL ENTRY STAND GI PENYULANG</h2>
+        <p class="subtitle">Sistem Entri Stand Penyaluran & Monitoring GI UP3 Surabaya Utara</p>
     </div>
 
     <!-- TAB SWITCHER NAVIGATION -->
     <div class="tab-navigation">
-        <button class="tab-btn active" onclick="switchTab('inputTab')">📝 INPUT STAND METER</button>
-        <button class="tab-btn" onclick="switchTab('monitorTab')">📊 MONITORING STATUS ENTRY</button>
+        <button class="tab-btn active" onclick="switchTab('inputTab')">📝 Input Stand</button>
+        <button class="tab-btn" onclick="switchTab('monitorTab')">📊 Monitoring Status Entry</button>
     </div>
 
     <!-- TAB 1: FORM INPUT DATA -->
     <div id="inputTab" class="tab-content active">
         <div class="filter-section">
             <div class="filter-group">
-                <label>PILIH GARDU INDUK (GI)</label>
+                <label>Pilih Gardu Induk (GI)</label>
                 <select id="giSelect" class="select-custom"></select>
             </div>
             <div class="filter-group">
-                <label>PILIH TRAFO METER</label>
+                <label>Pilih Trafo</label>
                 <select id="trafoSelect" class="select-custom"></select>
             </div>
         </div>
@@ -117,15 +117,15 @@
                             <th style="width: 125px;">LWBP 1</th>
                             <th style="width: 125px;">LWBP 2</th>
                             <th style="width: 125px;">WBP</th>
-                            <th style="width: 135px;">TOTAL</th>
-                            <th style="width: 125px;">kVarh</th>
+                            <th style="width: 135px;">Total</th>
+                            <th style="width: 125px;">kVArH</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody"></tbody>
                 </table>
             </div>
             <div class="btn-container">
-                <button type="submit" id="submitBtn" class="btn-submit">Simpan Data GI & Trafo</button>
+                <button type="submit" id="submitBtn" class="btn-submit">Simpan Data</button>
             </div>
         </form>
     </div>
