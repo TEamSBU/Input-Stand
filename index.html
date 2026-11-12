@@ -19,7 +19,14 @@
             --danger: #dc2626;           /* Merah tegas untuk status belum */
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-main); padding: 20px 15px; display: flex; justify-content: center; }
+        body { 
+            background-color: var(--bg-main); 
+            color: var(--text-main); 
+            padding: 25px 15px 40px 15px; /* Memberi ruang jarak di atas, kiri, dan kanan layar */
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+        }
         .container { background-color: var(--bg-card); padding: 30px 25px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); width: 100%; max-width: 1200px; position: relative; }
         
         .header-section { 
@@ -29,9 +36,12 @@
             justify-content: space-between;
             align-items: center;
             text-align: left; 
-            margin: -30px -25px 25px -25px; 
-            padding: 25px 30px; 
-            border-radius: 16px 16px 0 0;
+            max-width: 1110px; /* Lebar sejajar presisi dengan kartu filter & tabel di bawahnya */
+            width: calc(100% - 40px);
+            margin: 0 auto 25px auto; /* Terpisah dengan jarak 25px dari tombol tab */
+            padding: 22px 30px; 
+            border-radius: 14px; /* Sudut membulat di keempat sisinya */
+            box-shadow: 0 4px 12px rgba(0, 139, 158, 0.2);
             gap: 15px;
         }
         .header-icon {
