@@ -25,10 +25,19 @@
         .header-section { 
             background-color: var(--primary);
             color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             text-align: left; 
             margin: -30px -25px 25px -25px; 
             padding: 25px 30px; 
             border-radius: 16px 16px 0 0;
+            gap: 15px;
+        }
+        .header-icon {
+            width: 54px;
+            height: 54px;
+            flex-shrink: 0;
         }
         .header-section p.subtitle {
             color: #e0f2fe;
@@ -90,9 +99,46 @@
 </head>
 <body>
 <div class="container">
-    <div class="header-section">
-        <h2>PORTAL ENTRY STAND GI PENYULANG</h2>
-        <p class="subtitle">Sistem Entri Stand Penyaluran & Monitoring GI UP3 Surabaya Utara</p>
+        <div class="header-section">
+        <div>
+            <h2>PORTAL ENTRY STAND GI PENYULANG</h2>
+            <p class="subtitle">Sistem Entri Stand Penyaluran & Monitoring GI UP3 Surabaya Utara</p>
+        </div>
+        
+        <!-- IKON TRAFO LISTRIK WARNA PUTIH MURNI -->
+        <div class="header-icon">
+            <svg xmlns="http://w3.org" viewBox="0 0 100 115" width="100%" height="100%">
+                <!-- 3 Bushing Isolator Atas -->
+                <g fill="#ffffff">
+                    <!-- Bushing Kiri -->
+                    <rect x="23" y="4" width="10" height="4" rx="1"/>
+                    <rect x="20" y="10" width="16" height="4" rx="1"/>
+                    <rect x="20" y="16" width="16" height="4" rx="1"/>
+                    <rect x="20" y="22" width="16" height="4" rx="1"/>
+                    <rect x="23" y="28" width="10" height="4" rx="1"/>
+                    
+                    <!-- Bushing Tengah -->
+                    <rect x="45" y="4" width="10" height="4" rx="1"/>
+                    <rect x="42" y="10" width="16" height="4" rx="1"/>
+                    <rect x="42" y="16" width="16" height="4" rx="1"/>
+                    <rect x="42" y="22" width="16" height="4" rx="1"/>
+                    <rect x="45" y="28" width="10" height="4" rx="1"/>
+                    
+                    <!-- Bushing Kanan -->
+                    <rect x="67" y="4" width="10" height="4" rx="1"/>
+                    <rect x="64" y="10" width="16" height="4" rx="1"/>
+                    <rect x="64" y="16" width="16" height="4" rx="1"/>
+                    <rect x="64" y="22" width="16" height="4" rx="1"/>
+                    <rect x="67" y="28" width="10" height="4" rx="1"/>
+                </g>
+
+                <!-- Badan Utama Trafo dengan Lubang Petir Transparan -->
+                <path fill="#ffffff" fill-rule="evenodd" d="M14 34 H86 V96 H14 Z M42 46 L34 68 H48 L43 86 L64 62 H50 L57 46 Z"/>
+
+                <!-- Garis Dasar Bawah -->
+                <rect x="6" y="102" width="88" height="6" rx="2" fill="#ffffff"/>
+            </svg>
+        </div>
     </div>
 
     <!-- TAB SWITCHER NAVIGATION -->
