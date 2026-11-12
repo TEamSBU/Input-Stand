@@ -1,17 +1,621 @@
-<div id="monitorTab" class="tab-content">
-        <div class="filter-section" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 15px;">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Entry Stand - UP3 Surabaya Utara</title>
+    <style>
+        :root {
+            --primary: #008b9e;          /* Biru Toska Korporat PLN */
+            --primary-hover: #007382;    /* Toska lebih gelap saat disentuh */
+            --bg-main: #f1f5f9;          /* Latar belakang halaman abu-abu sangat muda */
+            --bg-card: #ffffff;          /* Kartu & tabel putih bersih */
+            --text-main: #1e293b;        /* Teks utama gelap agar kontras & tajam */
+            --text-muted: #64748b;       /* Teks subjudul abu-abu netral */
+            --border: #cbd5e1;           /* Garis batas abu-abu halus */
+            --input-bg: #ffffff;         /* Kotak input putih bersih */
+            --success: #008b9e;          /* Tombol Simpan Toska PLN */
+            --success-hover: #007382;
+            --danger: #dc2626;           /* Merah tegas untuk status belum */
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
+        body { 
+            background-color: var(--bg-main); 
+            color: var(--text-main); 
+            padding: 25px 15px 40px 15px; /* Memberi ruang jarak di atas, kiri, dan kanan layar */
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+        }
+        .container { background-color: var(--bg-card); padding: 30px 25px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); width: 100%; max-width: 1200px; position: relative; }
+        
+                .header-section { 
+            background-color: var(--primary);
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left; 
+            width: 100%; /* Samakan lebarnya 100% mengikuti pembungkus */
+            max-width: 100%; /* Hilangkan batasan 1110px agar lurus sejajar */
+            margin: 0 0 25px 0; /* Jarak bawah 25px agar tetap terpisah dengan tab */
+            padding: 22px 30px; 
+            border-radius: 14px; 
+            box-shadow: 0 4px 12px rgba(0, 139, 158, 0.2);
+            gap: 15px;
+        }
+        .header-icon {
+            width: 54px;
+            height: 54px;
+            flex-shrink: 0;
+        }
+        .header-section p.subtitle {
+            color: #e0f2fe;
+        }
+        /* MODERN TAB NAVIGATION */
+        .tab-navigation { 
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            background-color: transparent; 
+            padding: 4px 0; 
+            border: none; 
+            margin: 0 auto 14px auto; 
+            gap: 12px; 
+            width: 100%;
+        }
+        .tab-btn { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex: 0 1 auto; /* Lebar tombol menyesuaikan panjang teks seperti kapsul */
+            padding: 12px 26px; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 50px; /* Membuat sudut melengkung penuh (kapsul) */
+            background-color: #ffffff; 
+            color: #008b9e; 
+            font-size: 14px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: all 0.25s ease; 
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        }
+        .tab-btn:hover { 
+            background-color: #f0f9ff; 
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 139, 158, 0.12);
+        }
+        .tab-btn.active { 
+            background-color: #008b9e; 
+            color: #ffffff; 
+            border-color: #008b9e;
+            box-shadow: 0 4px 12px rgba(0, 139, 158, 0.35); 
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ANIMASI TITIK BERJALAN SAAT LOADING */
+        .loading-dots::after {
+            content: '';
+            display: inline-block;
+            width: 1.5em;
+            text-align: left;
+            animation: dotsAnimation 1.4s steps(4, end) infinite;
+        }
+        @keyframes dotsAnimation {
+            0%, 20% { content: ''; }
+            40%     { content: '.'; }
+            60%     { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+        
+        /* FORM STYLE COMPONENTS */
+        .filter-section { 
+            background-color: #e6f5f7; 
+            padding: 22px 25px; 
+            border-radius: 14px; 
+            margin-bottom: 12px; 
+            border: 1px solid #b8e3e8; 
+            box-shadow: 0 2px 8px rgba(0, 139, 158, 0.06);
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 20px; 
+        }
+        .filter-group { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 200px; }
+        .filter-group label { 
+            font-size: 12px; 
+            font-weight: 700; 
+            color: #006675; /* Teks label toska gelap agar kontras & tajam */
+            letter-spacing: 0.03em; 
+        }
+        .select-custom { padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none; background-color: var(--input-bg); color: var(--text-main); font-weight: 600; cursor: pointer; }
+        .select-custom:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); }
+        .table-wrapper { overflow-x: auto; margin-bottom: 30px; border-radius: 12px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 850px; }
+        th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { 
+            background-color: #e6f5f7; 
+            color: #006675; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            font-size: 11px; 
+            letter-spacing: 0.05em; 
+            border-bottom: 1px solid #b8e3e8;
+        }
+        tbody tr:nth-child(even) { background-color: #f4f9fa; }
+        tbody tr:hover { background-color: rgba(0, 139, 158, 0.12); }
+        td b { color: #0f172a; }
+        
+        .input-num { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; text-align: right; outline: none; background-color: var(--input-bg); color: var(--text-main); -moz-appearance: textfield; }
+        .input-num:focus { border-color: var(--primary); background-color: #f0f9ff; }
+        .input-num::-webkit-outer-spin-button, .input-num::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .btn-container { text-align: right; }
+        .btn-submit { padding: 14px 40px; background-color: var(--success); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; width: 100%; max-width: 280px; }
+        .btn-submit:hover { background-color: var(--success-hover); }
+
+        /* MONITORING DASHBOARD COMPONENTS */
+        .progress-card { background: #f8fafc; border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        .progress-text { font-size: 16px; font-weight: 600; margin-bottom: 10px; color: var(--text-main); }
+        .progress-bar-container { background-color: #e2e8f0; border-radius: 20px; height: 20px; width: 100%; overflow: hidden; }
+        .progress-bar-fill { background: linear-gradient(90deg, #10b981, #34d399); height: 100%; width: 0%; transition: width 0.5s ease-in-out; }
+        .gi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        .gi-card { 
+            border: 1px solid #e2e8f0; 
+            padding: 18px 15px; 
+            border-radius: 12px; 
+            background-color: #ffffff; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03); 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+            transition: all 0.2s ease; /* Animasi transisi warna dan gerakan halus */
+        }
+        .gi-card:hover { 
+            transform: translateY(-2px); 
+            background-color: rgba(0, 139, 158, 0.12); /* Warna biru toska transparan yang sama dengan tabel */
+            border-color: #008b9e; /* Garis tepi ikut menyala biru toska */
+            box-shadow: 0 4px 12px rgba(0, 139, 158, 0.12);
+        }
+        .gi-name { font-size: 14px; font-weight: 700; color: #0f172a !important; }
+        .detail-box span { color: #1e293b; }
+        .status-badge { padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 0.05em; align-self: flex-start; }
+        .status-done { background-color: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+        .status-partial { background-color: #fef3c7; color: #b45309; border: 1px solid #fcd34d; }
+        .status-wait { background-color: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+        .loading-text { text-align: center; font-size: 16px; color: var(--text-muted); padding: 40px 0; }
+        
+        @media (max-width: 768px) { 
+            .container { padding-top: 100px; } 
+            .logo-pln { left: 50%; transform: translateX(-50%); top: 20px; height: 60px; }
+            .filter-section { flex-direction: column; } 
+            .filter-group, .btn-submit { max-width: 100%; }
+            .tab-btn { padding: 10px; font-size: 13px; }
+            .gi-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+        <div class="header-section">
+        <div>
+            <h2>PORTAL ENTRY STAND GI PENYULANG</h2>
+            <p class="subtitle">Sistem Entri Stand Penyaluran & Monitoring GI UP3 Surabaya Utara</p>
+        </div>
+        
+        <!-- IKON TRAFO LISTRIK WARNA PUTIH MURNI -->
+                <!-- IKON TRAFO LENGKAP (3 BUSHING PUTIH + BODY PUTIH + PETIR KUNING EMAS + GARIS DASAR) -->
+        <div class="header-icon">
+            <svg xmlns="http://w3.org" viewBox="0 0 100 115" width="100%" height="100%">
+                <!-- 3 Bushing Isolator Atas (Putih) -->
+                <g fill="#ffffff">
+                    <!-- Bushing Kiri -->
+                    <rect x="23" y="4" width="10" height="4" rx="1"/>
+                    <rect x="20" y="10" width="16" height="4" rx="1"/>
+                    <rect x="20" y="16" width="16" height="4" rx="1"/>
+                    <rect x="20" y="22" width="16" height="4" rx="1"/>
+                    <rect x="23" y="28" width="10" height="4" rx="1"/>
+                    
+                    <!-- Bushing Tengah -->
+                    <rect x="45" y="4" width="10" height="4" rx="1"/>
+                    <rect x="42" y="10" width="16" height="4" rx="1"/>
+                    <rect x="42" y="16" width="16" height="4" rx="1"/>
+                    <rect x="42" y="22" width="16" height="4" rx="1"/>
+                    <rect x="45" y="28" width="10" height="4" rx="1"/>
+                    
+                    <!-- Bushing Kanan -->
+                    <rect x="67" y="4" width="10" height="4" rx="1"/>
+                    <rect x="64" y="10" width="16" height="4" rx="1"/>
+                    <rect x="64" y="16" width="16" height="4" rx="1"/>
+                    <rect x="64" y="22" width="16" height="4" rx="1"/>
+                    <rect x="67" y="28" width="10" height="4" rx="1"/>
+                </g>
+
+                <!-- Badan Utama Trafo (Kotak Putih Utuh) -->
+                <rect x="14" y="34" width="72" height="62" fill="#ffffff"/>
+
+                <!-- Simbol Petir di Tengah (Kuning Emas Hangat) -->
+                <path fill="#FFC107" stroke="#E0A800" stroke-width="1" stroke-linejoin="round" d="M42 46 L34 68 H48 L43 86 L64 62 H50 L57 46 Z"/>
+
+                <!-- Garis Dasar Bawah (Putih) -->
+                <rect x="6" y="102" width="88" height="6" rx="2" fill="#ffffff"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- TAB SWITCHER NAVIGATION -->
+    <div class="tab-navigation">
+        <button class="tab-btn active" onclick="switchTab('inputTab')" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <svg xmlns="http://w3.org" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path fill="currentColor" stroke="none" d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+            <span>INPUT STAND METER</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('monitorTab')" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <svg xmlns="http://w3.org" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 14l4-4"/>
+                <path d="M3.34 19a10 10 0 1 1 17.32 0"/>
+                <path d="M12 6v2"/>
+                <path d="M6.34 8.34l1.42 1.42"/>
+                <path d="M17.66 8.34l-1.42 1.42"/>
+            </svg>
+            <span>MONITORING STATUS ENTRY</span>
+        </button>
+    </div>
+
+    <!-- TAB 1: FORM INPUT DATA -->
+    <div id="inputTab" class="tab-content active">
+        <div class="filter-section">
+            <div class="filter-group">
+                <label>Pilih Gardu Induk (GI)</label>
+                <select id="giSelect" class="select-custom"></select>
+            </div>
+            <div class="filter-group">
+                <label>Pilih Trafo</label>
+                <select id="trafoSelect" class="select-custom"></select>
+            </div>
+        </div>
+        <form id="matrixForm">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nama Penyulang</th>
+                            <th style="width: 125px;">LWBP 1</th>
+                            <th style="width: 125px;">LWBP 2</th>
+                            <th style="width: 125px;">WBP</th>
+                            <th style="width: 135px;">Total</th>
+                            <th style="width: 125px;">kVArH</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+            <div class="btn-container">
+                <button type="submit" id="submitBtn" class="btn-submit">Simpan Data</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- TAB 2: MONITORING DASHBOARD -->
+    <div id="monitorTab" class="tab-content">
+        <div class="filter-section" style="margin-bottom: 20px;">
             <div class="filter-group" style="max-width: 280px;">
-                <label for="monitorMonth">Filter Bulan Entry</label>
+                <label for="monitorMonth">FILTER BULAN ENTRY</label>
                 <input type="month" id="monitorMonth" class="select-custom">
             </div>
-
-            <!-- TOMBOL DOWNLOAD SPREADSHEET LANGSUNG KE EXCEL (.XLSX) -->
-            <a href="https://google.com" target="_blank" class="btn-submit" style="background-color: #10b981; max-width: 230px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; text-decoration: none;">
-                <svg xmlns="http://w3.org" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/>
-                    <line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
-                <span>Export Data (Excel)</span>
-            </a>
         </div>
+
+        <div class="progress-card">
+            <div class="progress-text" id="progressLabel">Menghubungkan ke database...</div>
+            <div class="progress-bar-container"><div class="progress-bar-fill" id="progressBar"></div></div>
+        </div>
+        <div id="loadingMonitor" class="loading-text">Memproses status sinkronisasi bulanan...</div>
+        <div class="gi-grid" id="giGrid"></div>
+    </div>
+</div>
+<script>
+    const dbSistem = {
+        "KENJERAN": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Kalijudan", "Babatan", "Tmbk Sari", "Kr. Asem", "Resman", "Putro Agung", "Kp. Krampung", "Ked. Cowek", "Tb. Deres"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Mojoarum", "Dh. Husada", "Rangkah", "Tuwowo", "Kaliondo", "Mulyosari", "Sidoyoso", "Kapas Jaya", "Wiratno"],
+            "III": ["Meter Utama", "Meter Pembanding", "PS", "Pogot", "Bogen", "Gersikan", "Wisma Permai", "AURI", "Tampurejo", "Platuk"]
+        },
+        "KREMBANGAN": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Indrapura", "Jepara", "Atom", "Prk. Timur", "Lamicitra", "Rajawali", "Bumimoro", "Bogasari I", "Bogasari II", "Lumba-Lumba", "Wakil Rakyat"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Jakarta", "Kalimas", "Tb. Gringsing", "Sidorame", "Johor", "BBI", "Prapat Kr.", "Priok", "Pelabuhan", "Dupak"],
+            "III": ["Meter Utama", "Meter Pembanding", "PS", "Pasar Turi", "Telekom", "Kebon Rojo", "Purwodadi", "Kalianak", "TPS", "Samudra", "Bank Indonesia"]
+        },
+        "KUPANG": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "M Duryat", "Kedung Sari", "Tegal Sari", "Kaliasin", "Ps. Kembang", "TP 5A", "Empire", "Bs. Rahmat", "Cempaka", "Kedondong", "Ked. Rukem", "Kmp. Malang", "Trunojoyo"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Sheraton", "TP 5B", "Imam Bonjol/Santika", "TP 6A", "TP 6B", "B. Runcing", "Lemah Putro"]
+        },
+        "NGAGEL": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Pucang Sewu", "Kali Bokor", "Barata"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Bilka", "Ratna", "Ciliwung", "Sulawesi", "Pucang Adi", "Lumumba", "Diponegoro", "Ciwo", "Exp Ngagel 2", "Exp Ngagel 3"]
+        },
+        "PERAK": { "I": ["Meter Utama", "Meter Pembanding", "PS", "Dermaga Ex Pel I", "Nasir Ex Pel II", "Nilam I", "Nilam II", "Jamrud", "Mutiara"] },
+        "SAWAHAN": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Simorejo", "Ked. Doro", "Petemon", "Widodaren", "Mrgyoso", "Tmbk. Pring", "Simo Kwagean", "Simo Gunung", "DPRD Jatim"],
+            "III": ["Meter Utama", "Meter Pembanding", "PS", "Margorukun", "Tidar", "Ketandan", "Semarang", "Demak", "Asem Rowo", "Arjuno", "Kalibutuh", "Emb. Malang", "Bukit Bar."]
+        },
+        "SIMPANG": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Grahadi", "Yos Sudarso", "Ngemplak", "KS. Bangsa", "Tmn. Surya", "Radison I", "TP. Siring", "Ometraco", "ITC", "Ketabang", "Dr Soetomo"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "BRI Tower", "Kalimantan", "T. Plaza", "Hanamasa", "Galaxi", "Sogo 1", "Sogo 2"]
+        },
+        "TANDES": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Tnj Sari", "Mjo", "Margomulyo", "Gadukan", "Greges", "Dumar", "Buntaran", "BMI", "Menara", "Mashindo"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Darmo Permai", "Banyu Urip", "Sukomanunggal", "Gedang Asin", "Bibis Tama", "Simo Jawar", "Gds 4", "Gds 5", "Gds 6"],
+            "III": ["Meter Utama", "Meter Pembanding", "PS", "Asian Profile 1", "Asian Profile 2", "Bhirawa I", "Bhirawa II", "Gds 1", "Gds 2", "Indowire", "Lamong 3", "Lamong 4"],
+            "IV": ["Meter Utama", "Meter Pembanding", "PS", "Meshindo Ex Gds"]
+        },
+        "UNDAAN": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Kamboja", "Ach Jaiz", "Jagalan", "Pengampon", "Simp Dukuh", "Praban", "Genteng Kali", "Embong Purn", "Gemblongan", "Senopati", "Soka", "Grand City"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Pegirian", "Kapasari", "Kertopaten", "Pragoto", "Mustopo", "Baliwerti", "WTC", "Tmn Apsari", "Balai Kota", "Stadion"]
+        },
+        "UJUNG": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Pal I", "Pal II", "Pal III", "Pnt Mulya", "Lantamal I Ex Spare", "Lantamal III"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Tb. Wedi", "Wonosari", "Rowo Br", "Hangtuah", "Lantamal II", "Blk Banteng"]
+        },
+        "SAMBIKEREP": {
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Casablanca", "Klakarejo", "Sememi", "Rd Padangan", "Adelaide", "Sambalan"],
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Victoria", "Kendung", "Bringin", "Alas Malang", "Moroseneng", "North West"]
+        },
+        "PT INDOFOOD": { "I": ["PT Indofood"] },
+        "KALISARI": { "I": ["Meter Utama", "Meter Pembanding", "PS", "Ir Soekarno", "Arkadia", "Nakamura", "Pantai Timur", "Riverside", "Gading Pantai", "Kenpark", "S Galaxy 1", "Elgrand", "S Galaxy 2", "Persia", "Pakuwon City 1", "Pakuwon City 2"] },
+        "KEDINDING": { "I": ["Meter Utama", "Meter Pembanding", "PS", "M Noer", "Al Fitrah", "Nambangan", "Grand Sagara", "Kalilom", "East Coast", "Surabaya Park"] },
+        "SUKOLILO": {
+            "III": ["Meter Utama", "Meter Pembanding", "PS", "Semolo", "Kalidami", "Gebang Lor", "Srikana", "Lotus", "PAM", "Bratang Kalisumo", "Bengkel", "Megah Raya", "Kali Rungkut", "Atlas", "Tropical"],
+            "IV": ["Meter Utama", "Meter Pembanding", "PS", "Bima 1", "Bima 2", "Klampis", "Kertajaya"]
+        },
+        "GEMBONG": { "I": ["Meter Utama", "Meter Pembanding", "PS", "Simokerto", "Kapasan", "Mega Grosir", "Alimar", "Arabica", "Soewandi"] },
+        "WONOKROMO": { "III": ["Meter Utama", "Meter Pembanding", "PS", "Prapen", "Univ Hang Tuah", "Exp Wonokromo 1 (Marga Satwa)", "Exp Wonokromo 2 (Ciwo 2)", "Exp Wonokromo 3 (Indragiri)", "PAM 4", "Joyoboyo", "Kejaksaan", "Adityawarman", "Royal 1", "Ketintang", "Petrokimia", "Mangga Dua", "PAM 3"] }
+    };
+    const giSelect = document.getElementById('giSelect');
+    const trafoSelect = document.getElementById('trafoSelect');
+    const tbody = document.getElementById('tableBody');
+    const gridContainer = document.getElementById('giGrid');
+    const loadingMonitor = document.getElementById('loadingMonitor');
+    const progressBar = document.getElementById('progressBar');
+    const progressLabel = document.getElementById('progressLabel');
+
+    // ⚠️ MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzd-7rTeTsBSFDBqFTKeAvS-lFN1Ckx7KM3ug3oPe58RerpXb8NlFwDpNW6i_3LTDusIQ/exec';
+
+    // NAVIGASI PERPINDAHAN TAB ENGINE
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        if (tabId === 'inputTab') {
+            document.querySelector('[onclick="switchTab(\'inputTab\')"]').classList.add('active');
+            document.getElementById('inputTab').classList.add('active');
+        } else {
+            document.querySelector('[onclick="switchTab(\'monitorTab\')"]').classList.add('active');
+            document.getElementById('monitorTab').classList.add('active');
+            muatHalamanMonitoring(); // Auto fetch data saat tab dashboard diklik
+        }
+    }
+
+    // TAB 1: LOGIK FORM INPUT GENERATOR
+    Object.keys(dbSistem).forEach(giName => {
+        const opt = document.createElement('option');
+        opt.value = giName; opt.textContent = giName;
+        giSelect.appendChild(opt);
+    });
+
+    function updateTrafoOptions() {
+        trafoSelect.innerHTML = "";
+        const selectedGI = giSelect.value;
+        Object.keys(dbSistem[selectedGI]).forEach(tId => {
+            const opt = document.createElement('option');
+            opt.value = tId; opt.textContent = `TRAFO ${tId}`;
+            trafoSelect.appendChild(opt);
+        });
+        renderTable();
+    }
+
+    function renderTable() {
+        tbody.innerHTML = "";
+        const currentGI = giSelect.value;
+        const currentTrafo = trafoSelect.value;
+        if (!currentGI || !currentTrafo) return;
+
+        dbSistem[currentGI][currentTrafo].forEach(pName => {
+            const tr = document.createElement('tr');
+            tr.setAttribute('data-pname', pName);
+            tr.innerHTML = `
+                <td><b>${pName}</b></td>
+                <td><input type="number" step="any" class="input-num lwbp1" min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num lwbp2" min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num wbp" min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num total" min="0" placeholder="0"></td>
+                <td><input type="number" step="any" class="input-num kvarh" min="0" placeholder="0"></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    giSelect.addEventListener('change', updateTrafoOptions);
+    trafoSelect.addEventListener('change', renderTable);
+    updateTrafoOptions();
+
+    // SINKRONISASI TOMBOL SIMPAN KE GOOGLE SHEETS
+    const form = document.getElementById('matrixForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Menyimpan...';
+
+        const giVal = giSelect.value;
+        const trafoVal = `TRAFO ${trafoSelect.value}`;
+        const rowsData = [];
+        let isValid = true;
+        let namaPenyulangEror = "";
+
+        tbody.querySelectorAll('tr').forEach(tr => {
+            const pName = tr.getAttribute('data-pname');
+            const lwbp1 = tr.querySelector('.lwbp1').value;
+            const lwbp2 = tr.querySelector('.lwbp2').value;
+            const wbp = tr.querySelector('.wbp').value;
+            const total = tr.querySelector('.total').value;
+            const kvarh = tr.querySelector('.kvarh').value;
+
+            if (lwbp1.trim() === "" && lwbp2.trim() === "" && wbp.trim() === "" && total.trim() === "" && kvarh.trim() === "") return;
+
+            const validasiAngkaKetat = (val) => {
+                if (val.trim() === "") return "";
+                return /^\d+(\.\d+)?$/.test(val.trim()) ? val.trim() : false;
+            };
+
+            const fLwbp1 = validasiAngkaKetat(lwbp1);
+            const fLwbp2 = validasiAngkaKetat(lwbp2);
+            const fWbp = validasiAngkaKetat(wbp);
+            const fTotal = validasiAngkaKetat(total);
+            const fKvarh = validasiAngkaKetat(kvarh);
+
+            if (fLwbp1 === false || fLwbp2 === false || fWbp === false || fTotal === false || fKvarh === false) {
+                isValid = false; namaPenyulangEror = pName;
+            }
+
+            rowsData.push({ gi: giVal, trafo: trafoVal, penyulang: pName, lwbp1: fLwbp1, lwbp2: fLwbp2, wbp: fWbp, total: fTotal, kvarh: fKvarh });
+        });
+
+        if (rowsData.length === 0) {
+            alert("Pemberitahuan: Tidak ada data yang dikirim karena semua kolom input kosong.");
+            submitBtn.disabled = false; submitBtn.innerHTML = 'Simpan Data'; return;
+        }
+        if (!isValid) {
+            alert(`Pemberitahuan: Format salah pada penyulang "${namaPenyulangEror}".`);
+            submitBtn.disabled = false; submitBtn.innerHTML = 'Simpan Data'; return;
+        }
+
+        fetch(scriptURL, { method: 'POST', body: JSON.stringify({ rows: rowsData }) })
+        .then(response => {
+            alert(`Sukses! Data ${giVal} ${trafoVal} yang terisi berhasil disimpan.`);
+            form.reset(); submitBtn.disabled = false; submitBtn.innerHTML = 'Simpan Data';
+        })
+        .catch(error => {
+            alert('Gagal menyimpan, mohon periksa koneksi internet.');
+            submitBtn.disabled = false; submitBtn.innerHTML = 'Simpan Data';
+        });
+    });
+
+    // Set bawaan filter bulan ke bulan saat ini (YYYY-MM)
+    const monitorMonthInput = document.getElementById('monitorMonth');
+    const now = new Date();
+    const currentMonthStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    monitorMonthInput.value = currentMonthStr;
+
+    // Muat ulang monitoring otomatis saat bulan diganti
+    monitorMonthInput.addEventListener('change', muatHalamanMonitoring);
+
+    // TAB 2: MONITORING ENGINE BERBASIS BULAN
+    function muatHalamanMonitoring() {
+        const selectedMonth = monitorMonthInput.value || currentMonthStr;
+        loadingMonitor.style.display = 'block';
+        gridContainer.innerHTML = "";
+        progressLabel.innerHTML = `Memproses status bulan ${selectedMonth}<span class="loading-dots"></span>`;
+        loadingMonitor.innerHTML = `Memproses status sinkronisasi bulanan<span class="loading-dots"></span>`;
+        progressBar.style.width = '0%';
+
+        // Kirim parameter ?month=YYYY-MM ke Google Apps Script
+        fetch(`${scriptURL}?month=${encodeURIComponent(selectedMonth)}`)
+            .then(response => response.json())
+            .then(resData => {
+                loadingMonitor.style.display = 'none';
+                const statusMap = resData.statusDetail || {};
+                
+                let totalGI = 0;
+                let lengkapGI = 0;
+
+                Object.keys(dbSistem).forEach(giName => {
+                    totalGI++;
+                    let totalPenyulangGI = 0;
+                    let suksesPenyulangGI = 0;
+                    let adaInputSebagian = false;
+                    let htmlDetail = "";
+
+                    Object.keys(dbSistem[giName]).forEach(tId => {
+                        dbSistem[giName][tId].forEach(pName => {
+                            totalPenyulangGI++;
+                            const keyCheck = `${giName}|TRAFO ${tId}|${pName}`;
+                            const info = statusMap[keyCheck];
+                            
+                            let statusLabel = "🔴 Belum";
+                            let statusColor = "#dc2626";
+
+                            if (info) {
+                                adaInputSebagian = true;
+                                if (info.lengkap) {
+                                    suksesPenyulangGI++;
+                                    statusLabel = "🟢 Ok";
+                                    statusColor = "#15803d";
+                                } else {
+                                    statusLabel = `🟡 Kurang: ${info.kurang.join(", ")}`;
+                                    statusColor = "#b45309";
+                                }
+                            }
+
+                            htmlDetail += `
+                                <div style="display:flex; flex-direction:column; gap:3px; padding:8px 6px 8px 0; border-bottom:1px solid var(--border); font-size:12px;">
+                                    <span style="color:#0f172a; font-weight:600;">T.${tId} - ${pName}</span>
+                                    <span style="color:${statusColor}; font-weight:bold; font-size:11px;">
+                                        ${statusLabel}
+                                    </span>
+                                </div>
+                            `;
+                        });
+                    });
+
+                    let badgeClass = 'status-wait';
+                    let badgeText = '🔴 Belum Input';
+
+                    if (suksesPenyulangGI === totalPenyulangGI && totalPenyulangGI > 0) {
+                        badgeClass = 'status-done';
+                        badgeText = '🟢 Lengkap';
+                        lengkapGI++;
+                    } else if (suksesPenyulangGI > 0 || adaInputSebagian) {
+                        badgeClass = 'status-partial';
+                        badgeText = `🟡 Dicicil (${suksesPenyulangGI}/${totalPenyulangGI} OK)`;
+                    }
+
+                    const card = document.createElement('div');
+                    card.className = 'gi-card';
+                    card.style.cursor = 'pointer';
+                    card.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div class="gi-name">${giName}</div>
+                            <span style="font-size:11px; color:var(--text-muted);">▼ Rincian</span>
+                        </div>
+                        <div class="status-badge ${badgeClass}" style="margin-top:6px;">${badgeText}</div>
+                        <div class="detail-box" style="display:none; margin-top:12px; padding-top:8px; border-top:1px dashed var(--border); max-height:220px; overflow-y:auto;">
+                            ${htmlDetail}
+                        </div>
+                    `;
+
+                    card.addEventListener('click', (e) => {
+                        if (e.target.closest('.detail-box')) return;
+                        const box = card.querySelector('.detail-box');
+                        box.style.display = (box.style.display === 'none') ? 'block' : 'none';
+                    });
+
+                    gridContainer.appendChild(card);
+                });
+
+                const persentase = totalGI > 0 ? Math.round((lengkapGI / totalGI) * 100) : 0;
+                progressBar.style.width = persentase + '%';
+                progressLabel.innerHTML = `Progres Bulan <b>${selectedMonth}</b>: <b>${lengkapGI}</b> dari <b>${totalGI}</b> GI Lengkap (${persentase}%)`;
+            })
+            .catch(error => {
+                loadingMonitor.innerHTML = "Gagal memuat database status bulanan.";
+                console.error('Error!', error.message);
+            });
+    }
+</script>
+</body>
+</html>
