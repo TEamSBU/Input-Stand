@@ -300,21 +300,23 @@
     </div>
 
     <!-- TAB 2: MONITORING DASHBOARD -->
-    <div id="monitorTab" class="tab-content">
-        <div class="filter-section" style="margin-bottom: 20px;">
+   <div id="monitorTab" class="tab-content">
+        <div class="filter-section" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 15px;">
             <div class="filter-group" style="max-width: 280px;">
-                <label for="monitorMonth">FILTER BULAN ENTRY</label>
+                <label for="monitorMonth">Filter Bulan Entry</label>
                 <input type="month" id="monitorMonth" class="select-custom">
             </div>
-        </div>
 
-        <div class="progress-card">
-            <div class="progress-text" id="progressLabel">Menghubungkan ke database...</div>
-            <div class="progress-bar-container"><div class="progress-bar-fill" id="progressBar"></div></div>
+            <!-- TOMBOL DOWNLOAD SPREADSHEET LANGSUNG KE EXCEL (.XLSX) -->
+            <a href="https://google.com" target="_blank" class="btn-submit" style="background-color: #10b981; max-width: 230px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; text-decoration: none;">
+                <svg xmlns="http://w3.org" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                <span>Export Data (Excel)</span>
+            </a>
         </div>
-        <div id="loadingMonitor" class="loading-text">Memproses status sinkronisasi bulanan...</div>
-        <div class="gi-grid" id="giGrid"></div>
-    </div>
 </div>
 <script>
     const dbSistem = {
