@@ -53,10 +53,45 @@
             color: #e0f2fe;
         }
         /* MODERN TAB NAVIGATION */
-        .tab-navigation { display: flex; background-color: #e2e8f0; padding: 6px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 30px; gap: 5px; }
-        .tab-btn { flex: 1; padding: 12px; border: none; border-radius: 6px; background: none; color: var(--text-muted); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; }
-        .tab-btn:hover { color: var(--text-main); background-color: rgba(51, 65, 85, 0.3); }
-        .tab-btn.active { background-color: var(--primary); color: white; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2); }
+        .tab-navigation { 
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            background-color: transparent; 
+            padding: 4px 0; 
+            border: none; 
+            margin: 0 auto 14px auto; 
+            gap: 12px; 
+            width: 100%;
+        }
+        .tab-btn { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex: 0 1 auto; /* Lebar tombol menyesuaikan panjang teks seperti kapsul */
+            padding: 12px 26px; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 50px; /* Membuat sudut melengkung penuh (kapsul) */
+            background-color: #ffffff; 
+            color: #008b9e; 
+            font-size: 14px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: all 0.25s ease; 
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        }
+        .tab-btn:hover { 
+            background-color: #f0f9ff; 
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 139, 158, 0.12);
+        }
+        .tab-btn.active { 
+            background-color: #008b9e; 
+            color: #ffffff; 
+            border-color: #008b9e;
+            box-shadow: 0 4px 12px rgba(0, 139, 158, 0.35); 
+        }
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
         
