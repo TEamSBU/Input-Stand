@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entri Stand UP3 SBU</title>
+    <title>Portal Energi Jaringan - UP3 Surabaya Utara</title>
     <style>
         :root {
             --primary: #2563eb;
@@ -16,16 +16,28 @@
             --input-bg: #0f172a;
             --success: #10b981;
             --success-hover: #059669;
+            --danger: #ef4444;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
         body { background-color: var(--bg-main); color: var(--text-main); padding: 20px 15px; display: flex; justify-content: center; }
         .container { background-color: var(--bg-card); padding: 30px 25px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); width: 100%; max-width: 1200px; position: relative; }
         
-        }
-
-        .header-section { text-align: center; margin-bottom: 35px; border-bottom: 1px solid var(--border); padding-bottom: 10px; padding-top: 10px; }
+        .logo-pln { position: absolute; top: 20px; left: 25px; height: 65px; width: auto; object-fit: contain; }
+        .header-section { text-align: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 20px; padding-top: 10px; }
         h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.025em; }
         p.subtitle { color: var(--text-muted); font-size: 14px; }
+        
+        /* MODERN TAB NAVIGATION */
+        .tab-navigation { display: flex; background-color: rgba(15, 23, 42, 0.6); padding: 6px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 30px; gap: 5px; }
+        .tab-btn { flex: 1; padding: 12px; border: none; border-radius: 6px; background: none; color: var(--text-muted); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .tab-btn:hover { color: var(--text-main); background-color: rgba(51, 65, 85, 0.3); }
+        .tab-btn.active { background-color: var(--primary); color: white; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* FORM STYLE COMPONENTS */
         .filter-section { background-color: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 20px; }
         .filter-group { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 200px; }
         .filter-group label { font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.05em; }
@@ -38,62 +50,95 @@
         tbody tr:hover { background-color: rgba(51, 65, 85, 0.3); }
         td b { color: #f1f5f9; }
         
-        /* INPUT CLEAN TANPA PANAH SPINNER */
         .input-num { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; text-align: right; outline: none; background-color: var(--input-bg); color: var(--text-main); -moz-appearance: textfield; }
         .input-num:focus { border-color: var(--primary); background-color: rgba(15, 23, 42, 0.8); }
         .input-num::-webkit-outer-spin-button, .input-num::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        
         .btn-container { text-align: right; }
         .btn-submit { padding: 14px 40px; background-color: var(--success); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; width: 100%; max-width: 280px; }
         .btn-submit:hover { background-color: var(--success-hover); }
+
+        /* MONITORING DASHBOARD COMPONENTS */
+        .progress-card { background: rgba(15, 23, 42, 0.4); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        .progress-text { font-size: 16px; font-weight: 600; margin-bottom: 10px; color: #f1f5f9; }
+        .progress-bar-container { background-color: #334155; border-radius: 20px; height: 20px; width: 100%; overflow: hidden; }
+        .progress-bar-fill { background: linear-gradient(90deg, #10b981, #34d399); height: 100%; width: 0%; transition: width 0.5s ease-in-out; }
+        .gi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        .gi-card { border: 1px solid var(--border); padding: 18px 15px; border-radius: 10px; background-color: rgba(15, 23, 42, 0.2); display: flex; flex-direction: column; gap: 8px; transition: transform 0.2s; }
+        .gi-card:hover { transform: translateY(-2px); }
+        .gi-name { font-size: 14px; font-weight: 700; color: #f1f5f9; }
+        .status-badge { padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: 0.05em; align-self: flex-start; }
+        .status-done { background-color: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
+        .status-wait { background-color: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .loading-text { text-align: center; font-size: 16px; color: var(--text-muted); padding: 40px 0; }
         
         @media (max-width: 768px) { 
-            .container { padding-top: 110px; } 
+            .container { padding-top: 100px; } 
             .logo-pln { left: 50%; transform: translateX(-50%); top: 20px; height: 60px; }
             .filter-section { flex-direction: column; } 
-            .filter-group, .btn-submit { max-width: 100%; } 
+            .filter-group, .btn-submit { max-width: 100%; }
+            .tab-btn { padding: 10px; font-size: 13px; }
+            .gi-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 <div class="container">
-        <div class="header-section">
-        <h2>GI - PENYULANG DISTRIBUSI</h2>
-        <p class="subtitle">Entri Data GI-Penyulang UP3 Surabaya Utara</p>
-    </div>
+    <img src="https://wikimedia.org" alt="Logo PLN Resmi" class="logo-pln">
     
-    <div class="filter-section">
-        <div class="filter-group">
-            <label>PILIH GARDU INDUK (GI)</label>
-            <select id="giSelect" class="select-custom"></select>
-        </div>
-        <div class="filter-group">
-            <label>PILIH TRAFO METER</label>
-            <select id="trafoSelect" class="select-custom"></select>
-        </div>
+    <div class="header-section">
+        <h2>PORTAL OPERASIONAL ENERGI DISTRIBUSI</h2>
+        <p class="subtitle">Sistem Integrasi Penyaluran & Monitoring Jaringan UP3 Surabaya Utara</p>
     </div>
 
-    <form id="matrixForm">
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nama Penyulang</th>
-                        <th style="width: 125px;">LWBP 1</th>
-                        <th style="width: 125px;">LWBP 2</th>
-                        <th style="width: 125px;">WBP</th>
-                        <th style="width: 135px;">TOTAL</th>
-                        <th style="width: 125px;">kVarh</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                </tbody>
-            </table>
+    <!-- TAB SWITCHER NAVIGATION -->
+    <div class="tab-navigation">
+        <button class="tab-btn active" onclick="switchTab('inputTab')">📝 INPUT STAND METER</button>
+        <button class="tab-btn" onclick="switchTab('monitorTab')">📊 MONITORING STATUS ENTRY</button>
+    </div>
+
+    <!-- TAB 1: FORM INPUT DATA -->
+    <div id="inputTab" class="tab-content active">
+        <div class="filter-section">
+            <div class="filter-group">
+                <label>PILIH GARDU INDUK (GI)</label>
+                <select id="giSelect" class="select-custom"></select>
+            </div>
+            <div class="filter-group">
+                <label>PILIH TRAFO METER</label>
+                <select id="trafoSelect" class="select-custom"></select>
+            </div>
         </div>
-        <div class="btn-container">
-            <button type="submit" id="submitBtn" class="btn-submit">Simpan Data</button>
+        <form id="matrixForm">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nama Penyulang</th>
+                            <th style="width: 125px;">LWBP 1</th>
+                            <th style="width: 125px;">LWBP 2</th>
+                            <th style="width: 125px;">WBP</th>
+                            <th style="width: 135px;">TOTAL</th>
+                            <th style="width: 125px;">kVarh</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+            <div class="btn-container">
+                <button type="submit" id="submitBtn" class="btn-submit">Simpan Data GI & Trafo</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- TAB 2: MONITORING DASHBOARD -->
+    <div id="monitorTab" class="tab-content">
+        <div class="progress-card">
+            <div class="progress-text" id="progressLabel">Menghubungkan ke database...</div>
+            <div class="progress-bar-container"><div class="progress-bar-fill" id="progressBar"></div></div>
         </div>
-    </form>
+        <div id="loadingMonitor" class="loading-text">Memproses status sinkronisasi harian...</div>
+        <div class="gi-grid" id="giGrid"></div>
+    </div>
 </div>
 <script>
     const dbSistem = {
@@ -126,16 +171,16 @@
         },
         "TANDES": {
             "I": ["Meter Utama", "Meter Pembanding", "PS", "Tnj Sari", "Mjo", "Margomulyo", "Gadukan", "Greges", "Dumar", "Buntaran", "BMI", "Menara", "Mashindo"],
-            "II": ["Meter Utama", "Meter Pembanding", "PS", "Darmo Permai", "Banyu Urip", "Sukomanunggal", "Gedang Asin", "Bibis Tama", "Simo Jawar", "GDS 4", "GDS 5", "GDS 6"],
-            "III": ["Meter Utama", "Meter Pembanding", "PS", "Asian Profile 1", "Asian Profile 2", "Bhirawa I", "Bhirawa II", "GDS 1", "GDS 2", "Indowire", "Lamong 3", "Lamong 4"],
-            "IV": ["Meter Utama", "Meter Pembanding", "PS", "Meshindo Ex GDS"]
+            "II": ["Meter Utama", "Meter Pembanding", "PS", "Darmo Permai", "Banyu Urip", "Sukomanunggal", "Gedang Asin", "Bibis Tama", "Simo Jawar", "Gds 4", "Gds 5", "Gds 6"],
+            "III": ["Meter Utama", "Meter Pembanding", "PS", "Asian Profile 1", "Asian Profile 2", "Bhirawa I", "Bhirawa II", "Gds 1", "Gds 2", "Indowire", "Lamong 3", "Lamong 4"],
+            "IV": ["Meter Utama", "Meter Pembanding", "PS", "Meshindo Ex Gds"]
         },
         "UNDAAN": {
             "I": ["Meter Utama", "Meter Pembanding", "PS", "Kamboja", "Ach Jaiz", "Jagalan", "Pengampon", "Simp Dukuh", "Praban", "Genteng Kali", "Embong Purn", "Gemblongan", "Senopati", "Soka", "Grand City"],
             "II": ["Meter Utama", "Meter Pembanding", "PS", "Pegirian", "Kapasari", "Kertopaten", "Pragoto", "Mustopo", "Baliwerti", "WTC", "Tmn Apsari", "Balai Kota", "Stadion"]
         },
         "UJUNG": {
-            "I": ["Meter Utama", "Meter Pembanding", "PS", "PAL I", "PAL II", "PAL III", "Pnt Mulya", "Lantamal I Ex Spare", "Lantamal III"],
+            "I": ["Meter Utama", "Meter Pembanding", "PS", "Pal I", "Pal II", "Pal III", "Pnt Mulya", "Lantamal I Ex Spare", "Lantamal III"],
             "II": ["Meter Utama", "Meter Pembanding", "PS", "Tb. Wedi", "Wonosari", "Rowo Br", "Hangtuah", "Lantamal II", "Blk Banteng"]
         },
         "SAMBIKEREP": {
@@ -152,11 +197,33 @@
         "GEMBONG": { "I": ["Meter Utama", "Meter Pembanding", "PS", "Simokerto", "Kapasan", "Mega Grosir", "Alimar", "Arabica", "Soewandi"] },
         "WONOKROMO": { "III": ["Meter Utama", "Meter Pembanding", "PS", "Prapen", "Univ Hang Tuah", "Exp Wonokromo 1 (Marga Satwa)", "Exp Wonokromo 2 (Ciwo 2)", "Exp Wonokromo 3 (Indragiri)", "PAM 4", "Joyoboyo", "Kejaksaan", "Adityawarman", "Royal 1", "Ketintang", "Petrokimia", "Mangga Dua", "PAM 3"] }
     };
-
     const giSelect = document.getElementById('giSelect');
     const trafoSelect = document.getElementById('trafoSelect');
     const tbody = document.getElementById('tableBody');
+    const gridContainer = document.getElementById('giGrid');
+    const loadingMonitor = document.getElementById('loadingMonitor');
+    const progressBar = document.getElementById('progressBar');
+    const progressLabel = document.getElementById('progressLabel');
 
+    // ⚠️ MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
+    const scriptURL = 'PASTE_URL_WEB_APP_ANDA_DISINI';
+
+    // NAVIGASI PERPINDAHAN TAB ENGINE
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        if (tabId === 'inputTab') {
+            document.querySelector('[onclick="switchTab(\'inputTab\')"]').classList.add('active');
+            document.getElementById('inputTab').classList.add('active');
+        } else {
+            document.querySelector('[onclick="switchTab(\'monitorTab\')"]').classList.add('active');
+            document.getElementById('monitorTab').classList.add('active');
+            muatHalamanMonitoring(); // Auto fetch data saat tab dashboard diklik
+        }
+    }
+
+    // TAB 1: LOGIK FORM INPUT GENERATOR
     Object.keys(dbSistem).forEach(giName => {
         const opt = document.createElement('option');
         opt.value = giName; opt.textContent = giName;
@@ -166,8 +233,7 @@
     function updateTrafoOptions() {
         trafoSelect.innerHTML = "";
         const selectedGI = giSelect.value;
-        const trafoList = Object.keys(dbSistem[selectedGI]);
-        trafoList.forEach(tId => {
+        Object.keys(dbSistem[selectedGI]).forEach(tId => {
             const opt = document.createElement('option');
             opt.value = tId; opt.textContent = `TRAFO ${tId}`;
             trafoSelect.appendChild(opt);
@@ -175,7 +241,7 @@
         renderTable();
     }
 
-        function renderTable() {
+    function renderTable() {
         tbody.innerHTML = "";
         const currentGI = giSelect.value;
         const currentTrafo = trafoSelect.value;
@@ -184,7 +250,6 @@
         dbSistem[currentGI][currentTrafo].forEach(pName => {
             const tr = document.createElement('tr');
             tr.setAttribute('data-pname', pName);
-            // ATURAN BARU: Atribut "required" telah dihapus agar kolom boleh dikosongkan
             tr.innerHTML = `
                 <td><b>${pName}</b></td>
                 <td><input type="number" step="any" class="input-num lwbp1" min="0" placeholder="0"></td>
@@ -201,13 +266,14 @@
     trafoSelect.addEventListener('change', renderTable);
     updateTrafoOptions();
 
-    // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzd-7rTeTsBSFDBqFTKeAvS-lFN1Ckx7KM3ug3oPe58RerpXb8NlFwDpNW6i_3LTDusIQ/exec';
+    // SINKRONISASI TOMBOL SIMPAN KE GOOGLE SHEETS
     const form = document.getElementById('matrixForm');
     const submitBtn = document.getElementById('submitBtn');
 
-        form.addEventListener('submit', e => {
+    form.addEventListener('submit', e => {
         e.preventDefault();
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Menyimpan...';
 
         const giVal = giSelect.value;
         const trafoVal = `TRAFO ${trafoSelect.value}`;
@@ -223,26 +289,11 @@
             const total = tr.querySelector('.total').value;
             const kvarh = tr.querySelector('.kvarh').value;
 
-            // 1. Cek apakah baris ini benar-benar kosong semua (diabaikan/tidak dikirim)
-            const isBarisKosong = lwbp1.trim() === "" &&
-                                  lwbp2.trim() === "" &&
-                                  wbp.trim() === "" &&
-                                  total.trim() === "" &&
-                                  kvarh.trim() === "";
+            if (lwbp1.trim() === "" && lwbp2.trim() === "" && wbp.trim() === "" && total.trim() === "" && kvarh.trim() === "") return;
 
-            if (isBarisKosong) {
-                return; 
-            }
-
-            // 2. Fungsi Validasi Angka Ketat (Koreksi Baru: Jika kosong, biarkan kosong ""/jangan diubah jadi "0")
             const validasiAngkaKetat = (val) => {
-                if (val.trim() === "") return ""; // Biarkan string kosong agar tidak menimpa data lama di Sheets
-                
-                const regexAngka = /^\d+(\.\d+)?$/;
-                if (regexAngka.test(val.trim())) {
-                    return val.trim();
-                }
-                return false; 
+                if (val.trim() === "") return "";
+                return /^\d+(\.\d+)?$/.test(val.trim()) ? val.trim() : false;
             };
 
             const fLwbp1 = validasiAngkaKetat(lwbp1);
@@ -252,49 +303,69 @@
             const fKvarh = validasiAngkaKetat(kvarh);
 
             if (fLwbp1 === false || fLwbp2 === false || fWbp === false || fTotal === false || fKvarh === false) {
-                isValid = false;
-                namaPenyulangEror = pName;
+                isValid = false; namaPenyulangEror = pName;
             }
 
-            rowsData.push({
-                gi: giVal,
-                trafo: trafoVal,
-                penyulang: pName,
-                lwbp1: fLwbp1,
-                lwbp2: fLwbp2,
-                wbp: fWbp,
-                total: fTotal,
-                kvarh: fKvarh
-            });
+            rowsData.push({ gi: giVal, trafo: trafoVal, penyulang: pName, lwbp1: fLwbp1, lwbp2: fLwbp2, wbp: fWbp, total: fTotal, kvarh: fKvarh });
         });
 
         if (rowsData.length === 0) {
             alert("Pemberitahuan: Tidak ada data yang dikirim karena semua kolom input kosong.");
-            return;
+            submitBtn.disabled = false; submitBtn.innerHTML = 'Simpan Data'; return;
         }
-
         if (!isValid) {
-            alert(`Pemberitahuan: Format input salah! Pastikan kolom yang Anda isi pada penyulang "${namaPenyulangEror}" hanya berisi angka murni/desimal.`);
-            return; 
+            alert(`Pemberitahuan: Format salah pada penyulang "${namaPenyulangEror}".`);
+            submitBtn.disabled = false; submitBtn.innerHTML = 'Simpan Data'; return;
         }
-
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Menyimpan...';
 
         fetch(scriptURL, { method: 'POST', body: JSON.stringify({ rows: rowsData }) })
         .then(response => {
-            alert(`Sukses! Koreksi data ${giVal} ${trafoVal} berhasil diperbarui.`);
-            form.reset();
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Simpan Data GI & Trafo';
+            alert(`Sukses! Data ${giVal} ${trafoVal} yang terisi berhasil disimpan.`);
+            form.reset(); submitBtn.disabled = false; submitBtn.innerHTML = 'Simpan Data';
         })
         .catch(error => {
             alert('Gagal menyimpan, mohon periksa koneksi internet.');
-            console.error('Error!', error.message);
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Simpan Data GI & Trafo';
+            submitBtn.disabled = false; submitBtn.innerHTML = 'Simpan Data';
         });
     });
+
+    // TAB 2: MONITORING ENGINE (GET SINKRONISASI REALTIME)
+    function muatHalamanMonitoring() {
+        loadingMonitor.style.display = 'block';
+        gridContainer.innerHTML = "";
+        progressLabel.innerHTML = "Memproses penyaringan status harian...";
+        progressBar.style.width = '0%';
+
+        fetch(scriptURL)
+            .then(response => response.json())
+            .then(data => {
+                loadingMonitor.style.display = 'none';
+                let totalGI = 0; let suksesGI = 0;
+                
+                Object.keys(data).forEach(giName => {
+                    totalGI++;
+                    const isDone = data[giName];
+                    if (isDone) suksesGI++;
+
+                    const card = document.createElement('div');
+                    card.className = 'gi-card';
+                    card.innerHTML = `
+                        <div class="gi-name">${giName}</div>
+                        <div class="status-badge ${isDone ? 'status-done' : 'status-wait'}">
+                            ${isDone ? '● Sudah Input' : '○ Belum Input'}
+                        </div>
+                    `;
+                    gridContainer.appendChild(card);
+                });
+                const persentase = Math.round((suksesGI / totalGI) * 100);
+                progressBar.style.width = persentase + '%';
+                progressLabel.innerHTML = `Progres Hari Ini: <b>${suksesGI}</b> dari <b>${totalGI}</b> GI Terisi (${persentase}%)`;
+            })
+            .catch(error => {
+                loadingMonitor.innerHTML = "Gagal memuat database status harian.";
+                console.error('Error!', error.message);
+            });
+    }
 </script>
 </body>
 </html>
