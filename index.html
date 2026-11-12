@@ -374,11 +374,11 @@
                             }
 
                             htmlDetail += `
-                                <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--border); font-size:12px; gap:8px;">
-                                    <span style="color:var(--text-main);">T.${tId} - ${pName}</span>
-                                    <span style="color:${statusColor}; font-weight:bold; text-align:right; font-size:11px;">
-                                        ${statusLabel}
-                                    </span>
+                                <div style="display:flex; flex-direction:column; gap:3px; padding:8px 6px 8px 0; border-bottom:1px solid var(--border); font-size:12px;">
+                                     <span style="color:var(--text-main); font-weight:600;">T.${tId} - ${pName}</span>
+                                     <span style="color:${statusColor}; font-weight:bold; font-size:11px;">
+                                         ${statusLabel}
+                                     </span>
                                 </div>
                             `;
                         });
