@@ -330,6 +330,7 @@
     });
 
     // TAB 2: MONITORING ENGINE (GET SINKRONISASI REALTIME)
+        // TAB 2: MONITORING ENGINE (TAMPILAN 17 KOTAK GARDU INDUK)
     function muatHalamanMonitoring() {
         loadingMonitor.style.display = 'block';
         gridContainer.innerHTML = "";
@@ -338,26 +339,37 @@
 
         fetch(scriptURL)
             .then(response => response.json())
-            .then(data => {
+            .then(resData => {
                 loadingMonitor.style.display = 'none';
-                let totalGI = 0; let suksesGI = 0;
                 
-                Object.keys(data).forEach(giName => {
+                // Mengambil daftar penyulang yang sudah diinput hari ini dari Apps Script
+                const sudahInputList = resData.sudahInput || [];
+                
+                let totalGI = 0;
+                let suksesGI = 0;
+
+                // Melakukan looping pada daftar 17 Gardu Induk dari dbSistem
+                Object.keys(dbSistem).forEach(giName => {
                     totalGI++;
-                    const isDone = data[giName];
-                    if (isDone) suksesGI++;
+                    
+                    // Mengecek apakah ada minimal 1 penyulang dari GI ini yang sudah masuk hari ini
+                    const isGIDone = sudahInputList.some(item => item.startsWith(giName + "|"));
+                    
+                    if (isGIDone) suksesGI++;
 
                     const card = document.createElement('div');
                     card.className = 'gi-card';
                     card.innerHTML = `
                         <div class="gi-name">${giName}</div>
-                        <div class="status-badge ${isDone ? 'status-done' : 'status-wait'}">
-                            ${isDone ? '● Sudah Input' : '○ Belum Input'}
+                        <div class="status-badge ${isGIDone ? 'status-done' : 'status-wait'}">
+                            ${isGIDone ? '● Sudah Input' : '○ Belum Input'}
                         </div>
                     `;
                     gridContainer.appendChild(card);
                 });
-                const persentase = Math.round((suksesGI / totalGI) * 100);
+
+                // Menghitung persentase dari 17 Gardu Induk
+                const persentase = totalGI > 0 ? Math.round((suksesGI / totalGI) * 100) : 0;
                 progressBar.style.width = persentase + '%';
                 progressLabel.innerHTML = `Progres Hari Ini: <b>${suksesGI}</b> dari <b>${totalGI}</b> GI Terisi (${persentase}%)`;
             })
