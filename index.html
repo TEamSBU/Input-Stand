@@ -29,18 +29,18 @@
         }
         .container { background-color: var(--bg-card); padding: 30px 25px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); width: 100%; max-width: 1200px; position: relative; }
         
-        .header-section { 
+                .header-section { 
             background-color: var(--primary);
             color: #ffffff;
             display: flex;
             justify-content: space-between;
             align-items: center;
             text-align: left; 
-            max-width: 1110px; /* Lebar sejajar presisi dengan kartu filter & tabel di bawahnya */
-            width: calc(100% - 40px);
-            margin: 0 auto 25px auto; /* Terpisah dengan jarak 25px dari tombol tab */
+            width: 100%; /* Samakan lebarnya 100% mengikuti pembungkus */
+            max-width: 100%; /* Hilangkan batasan 1110px agar lurus sejajar */
+            margin: 0 0 25px 0; /* Jarak bawah 25px agar tetap terpisah dengan tab */
             padding: 22px 30px; 
-            border-radius: 14px; /* Sudut membulat di keempat sisinya */
+            border-radius: 14px; 
             box-shadow: 0 4px 12px rgba(0, 139, 158, 0.2);
             gap: 15px;
         }
