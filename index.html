@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Entry Stand - UP3 Surabaya Utara</title>
     <style>
-        :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg-main: #0f172a;
-            --bg-card: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: #334155;
-            --input-bg: #0f172a;
-            --success: #10b981;
-            --success-hover: #059669;
-            --danger: #ef4444;
+                :root {
+            --primary: #00A2B9;          /* Biru Toska Korporat (Pantone 3135 C) */
+            --primary-hover: #008699;    /* Toska lebih gelap saat disentuh */
+            --bg-main: #035B71;          /* Biru Tua Korporat Utama (Pantone 7477 C) */
+            --bg-card: #024455;          /* Biru Tua Kartu Dashboard */
+            --text-main: #ffffff;        /* Putih bersih */
+            --text-muted: #bae6fd;       /* Biru muda lembut untuk subjudul */
+            --border: #0a788f;           /* Garis batas nuansa korporat */
+            --input-bg: #023644;         /* Kotak input gelap agar angka jelas */
+            --success: #00A2B9;          /* Tombol Simpan menggunakan Toska Korporat */
+            --success-hover: #008699;
+            --danger: #FF0000;           /* Merah Resmi PLN (#FF0000) */
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
         body { background-color: var(--bg-main); color: var(--text-main); padding: 20px 15px; display: flex; justify-content: center; }
@@ -28,7 +28,7 @@
         p.subtitle { color: var(--text-muted); font-size: 14px; }
         
         /* MODERN TAB NAVIGATION */
-        .tab-navigation { display: flex; background-color: rgba(15, 23, 42, 0.6); padding: 6px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 30px; gap: 5px; }
+        .tab-navigation { display: flex; background-color: rgba(2, 54, 68, 0.7); padding: 6px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 30px; gap: 5px; }
         .tab-btn { flex: 1; padding: 12px; border: none; border-radius: 6px; background: none; color: var(--text-muted); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; }
         .tab-btn:hover { color: var(--text-main); background-color: rgba(51, 65, 85, 0.3); }
         .tab-btn.active { background-color: var(--primary); color: white; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2); }
@@ -38,7 +38,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* FORM STYLE COMPONENTS */
-        .filter-section { background-color: rgba(15, 23, 42, 0.6); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 20px; }
+        .filter-section { background-color: rgba(2, 54, 68, 0.7); padding: 20px; border-radius: 12px; margin-bottom: 25px; border: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 20px; }
         .filter-group { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 200px; }
         .filter-group label { font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.05em; }
         .select-custom { padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none; background-color: var(--input-bg); color: var(--text-main); font-weight: 600; cursor: pointer; }
