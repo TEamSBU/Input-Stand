@@ -180,13 +180,17 @@
         }
         .gi-name { font-size: 14px; font-weight: 700; color: #0f172a !important; }
         .detail-box span { color: #1e293b; }
-                /* Efek highlight untuk setiap baris penyulang di dalam rincian kartu GI */
+        .detail-box,
+        .gi-card div[style*="overflow"] {
+            overflow-x: hidden !important;
+        }
+
+        /* Efek highlight untuk setiap baris penyulang di dalam rincian kartu GI */
         .gi-card div[style*="border-bottom"] {
             padding: 8px 8px !important; /* Memberi ruang kiri-kanan agar highlight rapi */
             border-radius: 6px;
             transition: background-color 0.2s ease, transform 0.15s ease;
         }
-
         .gi-card div[style*="border-bottom"]:hover {
             background-color: #ffffff !important; /* Menyala putih terang di atas kartu toska */
             transform: translateX(3px); /* Efek geser halus ke kanan saat disorot */
